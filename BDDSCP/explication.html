@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport SCP-1025 - Dossier Sécurisé</title>
+    
+    <style>
+        :root {
+            --font-primary: 'Courier New', Courier, monospace;
+            --bg-color: #fff;
+            --accent-black: #000;
+            --alert-red: #8a0000;
+            --header-gray: #f2f2f2;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: #dcdcdc;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .document-container {
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 900px;
+            padding: 50px;
+            border: 1px solid #000;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* --- FILIGRANE --- */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8em;
+            color: rgba(0, 0, 0, 0.03);
+            pointer-events: none;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* --- EN-TÊTE --- */
+        .header {
+            border-bottom: 2px solid black;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .scp-id {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .classification-box {
+            border: 2px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* --- SECTIONS --- */
+        .section {
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .section-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: underline;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .keter-strike {
+            text-decoration: line-through;
+            color: #555;
+        }
+
+        .safe-green {
+            color: #006400;
+            font-weight: bold;
+        }
+
+        /* --- TABLEAU D'EXPÉRIENCES --- */
+        .exp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .exp-table th, .exp-table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .exp-table th {
+            background-color: var(--header-gray);
+        }
+
+        /* --- BLOC DE CENSURE --- */
+        .censure {
+            background-color: black;
+            color: black;
+            padding: 0 2px;
+        }
+
+        /* --- FOOTER --- */
+        .footer-nav {
+            margin-top: 50px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+        }
+
+        .footer-nav a, .footer-nav button {
+            color: black;
+            text-decoration: none;
+            border: 1px solid black;
+            padding: 5px 10px;
+            background: none;
+            font-family: var(--font-primary);
+            cursor: pointer;
+        }
+
+        .footer-nav a:hover, .footer-nav button:hover {
+            background: black;
+            color: white;
+        }
+
+        .o5-note {
+            border: 2px dashed var(--alert-red);
+            padding: 15px;
+            margin-top: 30px;
+            background-color: #fff8f8;
+        }
+
+        /* --- CONFIGURATION POUR LE PDF (IMPRESSION) --- */
+        @media print {
+            body { background: white; padding: 0; }
+            .document-container { box-shadow: none; border: none; width: 100%; max-width: 100%; padding: 0; }
+            .footer-nav { display: none; } /* Cache le menu sur le PDF */
+            .watermark { color: rgba(0, 0, 0, 0.05); }
+        }
+    </style>
+    
+    <!-- Scripts pour générer le PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const element = document.getElementById('report');
+            
+            // Masquer temporairement le filigrane pour une meilleure capture
+            const watermark = document.querySelector('.watermark');
+            const originalOpacity = watermark.style.opacity;
+            watermark.style.opacity = '0';
+            
+            // Capturer le contenu avec html2canvas
+            const canvas = await html2canvas(element, {
+                scale: 2, // Haute résolution pour le PDF
+                useCORS: true,
+                backgroundColor: '#ffffff'
+            });
+            
+            // Restaurer le filigrane
+            watermark.style.opacity = originalOpacity;
+            
+            // Créer le PDF
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const imgWidth = 210; // Largeur A4 en mm
+            const pageHeight = 295; // Hauteur A4 en mm
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let heightLeft = imgHeight;
+            
+            let position = 0;
+            
+            // Ajouter l'image au PDF (gestion des pages multiples si nécessaire)
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+            
+            // Télécharger le PDF
+            pdf.save('Rapport_SCP-1025.pdf');
+        }
+    </script>
+</head>
+<body>
+
+    <div class="document-container" id="report">
+        <div class="watermark">Confidentiel</div>
+
+        <div class="header">
+            <div>
+                <div class="scp-id">SCP-1025</div>
+                <div>NIVEAU D'ACCRÉDITATION 2 REQUIS</div>
+            </div>
+            <div class="classification-box">
+                CLASSE : <span class="keter-strike">KETER</span> <span class="safe-green">SÛR</span><br>
+                <small>(Révision du ██/██/2026)</small>
+            </div>
+        </div>
+
+        <div class="section">
+            <span class="section-title">Description :</span>
+            <p>
+                SCP-1025 est un livre relié d'environ 1500 pages intitulé <strong>"L'Encyclopédie des Infections"</strong>. 
+                L'ouvrage semble avoir été imprimé en 19██ par l'imprimerie <span class="censure">█████</span>. 
+            </p>
+            <p>
+                L'anomalie de SCP-1025 réside dans son effet cognitif et biologique : tout sujet lisant la description d'une maladie dans l'ouvrage semble en développer les symptômes cliniques. 
+            </p>
+        </div>
+
+        <div class="section">
+            <span class="section-title">Procédures de Confinement Spéciales :</span>
+            <p>
+                <strong>Procédure Actuelle :</strong> SCP-1025 doit être conservé dans une salle isolée avec une anti-chambre de protection. Toute personne entrant dans la chambre de confinement doit immédiatement être classée "Classe E" et passer un check-up médical complet avant sa réinsertion au sein de la Fondation.
+            </p>
+        </div>
+
+        <div class="section">
+            <span class="section-title">Rapport d'Expérience Abrégé :</span>
+            <table class="exp-table">
+                <thead>
+                    <tr>
+                        <th>Sujet</th>
+                        <th>Entrée lue</th>
+                        <th>Résultat observé</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <tr>
+                        <td>D-A1595</td>
+                        <td>Cardio-pulmonaire</td>
+                        <td>Décès environ 30 secondes après ouverture du livre.</td>
+                    </tr>
+                    <tr>
+                        <td>D-E0518</td>
+                        <td>Rhume</td>
+                        <td>Diagnostic : rhume perpétuel non soignable. Sujet éliminé.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="o5-note">
+            <span class="section-title" style="color:var(--alert-red); text-decoration: none;">Révision :</span>
+            <p>
+                L'effet est une forme d'<strong>Influence Mémétique</strong>. Le véritable danger est psychologique : temps que le livre n'est pas lue, il ne présente pas de danger.
+            </p>
+            <p><em>Mettez-le dans une boîte et n'y pensez plus.</em></p>
+        </div>
+
+        <div class="footer-nav">
+            <a href="../index.html"> < RETOUR AU MENU</a>
+            <span>SCIPNET TERMINAL V.4.2</span>
+            <button onclick="downloadPDF()">TÉLÉCHARGER PDF</button>
+        </div>
+    </div>
+
+</body>
+</html>
