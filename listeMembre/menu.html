@@ -183,14 +183,15 @@
         </div>
 
         <div class="controls-bar" id="no-print-1">
-            <input type="text" class="search-input" placeholder="Rechercher par ID ou Nom...">
-            <select class="filter-select">
+            <input type="text" class="search-input" placeholder="Rechercher par ID ou Nom..." id="search-input">
+            <select class="filter-select" id="filter-select">
                 <option>Tous les Départements</option>
                 <option>Recherche</option>
                 <option>Sécurité</option>
                 <option>Confinement</option>
             </select>
-            <button class="btn-action">FILTRER</button>
+            <button class="btn-action" onclick="filtrerMembres()">FILTRER</button>
+            <button class="btn-action" onclick="ajouterMembre()">AJOUTER UN MEMBRE</button>
         </div>
 
         <div class="director-card">
@@ -214,28 +215,143 @@
                     <th style="width: 10%;">Fichier</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>SCI-001</td>
-                    <td><strong>Snow, Hunter</strong></td>
-                    <td>Scientifique</td>
-                    <td>2</td>
-                    <td><span class="status-dot st-active"></span> ACTIF</td>
-                    <td><a href="personnel/HunterSnow.html" class="btn-view">Ouvrir</a></td>
-                </tr>
+            <tbody id="personnel-tbody">
+                <!-- La liste sera générée dynamiquement ici -->
             </tbody>
         </table>
     </div>
 
     <script>
+        let membres = []; // Tableau pour stocker les données des membres
+
+        // Fonction pour charger la liste des fichiers depuis membres.json
+        async function chargerMembres() {
+            try {
+                const response = await fetch('personnel/membres.json');
+                if (!response.ok) {
+                    throw new Error('Fichier membres.json non trouvé');
+                }
+                const fichiers = await response.json(); // Array de { "fichier": "nom.html" }
+
+                // Charger chaque fichier HTML et extraire les données
+                membres = [];
+                for (const item of fichiers) {
+                    const data = await chargerDonneesMembre(item.fichier);
+                    if (data) {
+                        membres.push(data);
+                    }
+                }
+                afficherMembres(membres);
+            } catch (error) {
+                console.error('Erreur lors du chargement des membres:', error);
+                document.getElementById('personnel-tbody').innerHTML = '<tr><td colspan="6">Erreur de chargement des données du personnel.</td></tr>';
+            }
+        }
+
+        // Fonction pour charger et parser un fichier HTML de membre
+        async function chargerDonneesMembre(fichier) {
+            try {
+                const response = await fetch('personnel/' + fichier);
+                if (!response.ok) {
+                    throw new Error('Fichier ' + fichier + ' non trouvé');
+                }
+                const htmlText = await response.text();
+
+                // Créer un DOM temporaire pour parser le HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+
+                // Extraire les données des éléments
+                const id = doc.getElementById('out_id')?.innerText || 'N/A';
+                const nom = doc.getElementById('out_nom')?.innerText || 'N/A';
+                const poste = doc.getElementById('out_poste')?.innerText || 'N/A';
+                const niveau = doc.getElementById('out_lvl')?.innerText || 'N/A';
+                const sexe = doc.getElementById('out_sexe')?.innerText || 'N/A';
+                const ddn = doc.getElementById('out_ddn')?.innerText || 'N/A';
+                const nat = doc.getElementById('out_nat')?.innerText || 'N/A';
+                const eth = doc.getElementById('out_eth')?.innerText || 'N/A';
+                const aff = doc.getElementById('out_aff')?.innerText || 'N/A';
+                const med = doc.getElementById('out_med')?.innerText || 'N/A';
+                const global = doc.getElementById('out_global')?.innerText || 'N/A';
+
+                // Mapper le département basé sur le poste (exemple simple, ajustez selon vos besoins)
+                let departement = 'Inconnu';
+                if (poste.toLowerCase().includes('chercheur') || poste.toLowerCase().includes('scientifique')) {
+                    departement = 'Recherche';
+                } else if (poste.toLowerCase().includes('sécurité') || poste.toLowerCase().includes('garde')) {
+                    departement = 'Sécurité';
+                } else if (poste.toLowerCase().includes('confinement')) {
+                    departement = 'Confinement';
+                }
+
+                // Statut : supposé ACTIF par défaut, ou dérivé d'autres champs si nécessaire
+                const statut = 'ACTIF';
+
+                return {
+                    id: id,
+                    nom: nom,
+                    departement: departement,
+                    niveau: niveau,
+                    statut: statut,
+                    fichier: fichier,
+                    // Autres données si besoin pour extension future
+                    poste: poste,
+                    sexe: sexe,
+                    ddn: ddn,
+                    nat: nat,
+                    eth: eth,
+                    aff: aff,
+                    med: med,
+                    global: global
+                };
+            } catch (error) {
+                console.error('Erreur lors du chargement de ' + fichier + ':', error);
+                return null;
+            }
+        }
+
+        // Fonction pour afficher les membres dans la table
+        function afficherMembres(liste) {
+            const tbody = document.getElementById('personnel-tbody');
+            tbody.innerHTML = ''; // Vider le contenu existant
+
+            liste.forEach(membre => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${membre.id}</td>
+                    <td><strong>${membre.nom}</strong></td>
+                    <td>${membre.departement}</td>
+                    <td>${membre.niveau}</td>
+                    <td><span class="status-dot st-active"></span> ${membre.statut}</td>
+                    <td><a href="personnel/${membre.fichier}" class="btn-view">Ouvrir</a></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Fonction pour filtrer les membres
+        function filtrerMembres() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const filterDept = document.getElementById('filter-select').value;
+
+            let filtered = membres.filter(membre => {
+                const matchesSearch = membre.id.toLowerCase().includes(searchTerm) || membre.nom.toLowerCase().includes(searchTerm);
+                const matchesDept = filterDept === 'Tous les Départements' || membre.departement === filterDept;
+                return matchesSearch && matchesDept;
+            });
+
+            afficherMembres(filtered);
+        }
+
+        // Charger les membres au chargement de la page
+        window.onload = chargerMembres;
+
         function telechargerDossier() {
             const element = document.getElementById('capture-zone');
             const controls = document.getElementById('no-print-1');
-            const pagination = document.getElementById('no-print-2');
 
             // Masquer les éléments interactifs avant la capture
             controls.style.display = 'none';
-            pagination.style.display = 'none';
 
             const options = {
                 margin: 0.3,
@@ -249,8 +365,12 @@
             html2pdf().set(options).from(element).save().then(() => {
                 // Réafficher les éléments après le téléchargement
                 controls.style.display = 'flex';
-                pagination.style.display = 'block';
             });
+        }
+
+        function ajouterMembre() {
+            // Rediriger vers la page d'ajout de membre
+            window.location.href = 'test.html';  // Remplacez par l'URL de votre page d'ajout
         }
     </script>
 
