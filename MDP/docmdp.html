@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN : Accès SCIPNET</title>
+    
+    <style>
+        :root {
+            --font-primary: 'Courier New', Courier, monospace;
+            --bg-color: #fff;
+            --alert-red: #8a0000;
+            --border-dark: #000;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: #dcdcdc;
+            padding: 40px 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .admin-container {
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            border-bottom: 3px solid black;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+
+        .admin-badge {
+            background: var(--alert-red);
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        /* TABLEAU DES MEMBRES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background-color: #eee;
+            border: 1px solid black;
+            padding: 12px;
+            text-align: left;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            font-size: 0.9em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .pwd-cell {
+            font-family: 'Consolas', monospace;
+            color: var(--alert-red);
+            font-weight: bold;
+        }
+
+        .status-active {
+            color: green;
+            font-weight: bold;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 0.7em;
+            border-top: 1px solid black;
+            padding-top: 10px;
+            font-style: italic;
+        }
+
+        .no-print {
+            margin-bottom: 20px;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: var(--font-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="no-print" onclick="window.print()">🖨️ EXPORTER LE REGISTRE (PDF)</button>
+
+    <div class="admin-container">
+        <div class="header">
+            <div>
+                <h1>REGISTRE DES ACCRÉDITATIONS</h1>
+                <small>PROJET PATHONOS - SITE-77</small>
+            </div>
+            <div class="admin-badge">ACCÈS ADMINISTRATEUR</div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Matricule / User</th>
+                    <th>Clef de Sécurité (PWD)</th>
+                    <th>Destination</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody id="member-table-body">
+                </tbody>
+        </table>
+
+        <div class="footer-note">
+            Ce document contient des informations de sécurité de Classe 2 pour l'administration du programme ou tout membre de la fondation charger d'inspection. Toute fuite de ces identifiants entraînera une procédure de confinement forcé de l'administrateur responsable.
+        </div>
+    </div>
+
+    <script>
+        // ICI : Utilise la même liste que dans ta page de login
+        const BASE_DONNEES_PERSONNEL = {
+            "ADMIN": ["1234", "indexADM.html"],
+            "SECU": ["1234", "indexSEC.html"],
+            "SCI": ["1234", "indexSCI.html"],
+            "MEDIC": ["1234", "indexMED.html"],
+            "Hunter Snow": ["1234", "indexSCI.html"]
+        };
+
+        const tableBody = document.getElementById('member-table-body');
+
+        // Génération automatique du tableau
+        for (const [user, info] of Object.entries(BASE_DONNEES_PERSONNEL)) {
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td><strong>${user}</strong></td>
+                <td class="pwd-cell">${info[0]}</td>
+                <td>${info[1]}</td>
+                <td class="status-active">● ACTIF</td>
+            `;
+            
+            tableBody.appendChild(row);
+        }
+    </script>
+</body>
+</html>

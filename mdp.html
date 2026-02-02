@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCIPNET : Authentification Requise</title>
+    
+    <style>
+        :root {
+            --font-primary: 'Courier New', Courier, monospace;
+            --bg-color: #fff;
+            --header-bg: #f4f4f4;
+            --alert-red: #8a0000;
+            --border-dark: #000;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: #dcdcdc;
+            /* Changé en min-height pour éviter de couper sur petits écrans */
+            min-height: 100vh; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px; /* Petit padding pour mobile */
+        }
+
+        .login-card {
+            background-color: var(--bg-color);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border: 2px solid var(--border-dark);
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .security-strip {
+            background: repeating-linear-gradient(45deg, #000, #000 10px, #dcdcdc 10px, #dcdcdc 20px);
+            height: 10px; width: 100%; position: absolute; top: 0; left: 0;
+        }
+
+        .header-title { text-align: center; border-bottom: 2px solid black; padding-bottom: 20px; margin-bottom: 30px; }
+        .header-title h1 { margin: 0; font-size: 1.5em; text-transform: uppercase; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8em; }
+
+        .form-input {
+            width: 100%; padding: 12px; border: 1px solid black;
+            font-family: var(--font-primary); font-size: 1.1em; background: #f9f9f9; outline: none;
+        }
+
+        .btn-login {
+            width: 100%; background: black; color: white; border: none; padding: 15px;
+            font-family: var(--font-primary); font-weight: bold; text-transform: uppercase; cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn-recrutement {
+            width: 100%; background: white; color: black; border: 2px solid black; padding: 12px;
+            font-family: var(--font-primary); font-weight: bold; text-transform: uppercase; cursor: pointer;
+            text-decoration: none; display: block; text-align: center; font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .btn-recrutement:hover {
+            background: #eee;
+            letter-spacing: 1px;
+        }
+
+        /* --- SECTION NEWS AJOUTÉE --- */
+        .news-section {
+            margin-top: 25px;
+            border-top: 2px dashed #ccc;
+            padding-top: 15px;
+        }
+
+        .news-header {
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blink-status {
+            color: var(--alert-red);
+            animation: blinker 2s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        .news-box {
+            height: 120px; /* Hauteur fixe */
+            overflow-y: auto; /* Scroll si trop de texte */
+            background: #f4f4f4;
+            border: 1px solid #999;
+            padding: 10px;
+            font-size: 0.75em;
+        }
+
+        .news-item {
+            margin-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 4px;
+        }
+        .news-item:last-child { border-bottom: none; }
+        
+        .news-date { font-weight: bold; color: #333; }
+        
+        /* Style de la scrollbar pour faire "rétro" */
+        .news-box::-webkit-scrollbar { width: 6px; }
+        .news-box::-webkit-scrollbar-track { background: #eee; }
+        .news-box::-webkit-scrollbar-thumb { background: #000; }
+        /* ---------------------------- */
+
+        .error-msg { color: var(--alert-red); font-weight: bold; text-align: center; margin-top: 15px; display: none; }
+        .footer-warning { margin-top: 30px; font-size: 0.7em; text-align: justify; color: #555; border-top: 1px solid #ccc; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="security-strip"></div>
+        
+        <div class="header-title">
+            <h1>SCIPNET V4.2</h1>
+            <span style="font-size: 0.8em; font-weight: bold;">SYSTÈME D'AUTHENTIFICATION CENTRALISÉ DU PROGRAMME 1025-1-2026-LVL2</span>
+        </div>
+
+        <form id="loginForm" onsubmit="event.preventDefault(); verifierLogin();">
+            <div class="form-group">
+                <label>Matricule / Identifiant</label>
+                <input type="text" id="username" class="form-input" placeholder="Matricule / User" required>
+            </div>
+
+            <div class="form-group">
+                <label>Clef de Sécurité</label>
+                <input type="password" id="password" class="form-input" placeholder="Clef de Sécurité (PWD)" required>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">INITIALISER LA CONNEXION</button>
+            
+            <a href="recrutement/menu.html" class="btn-recrutement">FAIRE LE RECRUTEMENT</a>
+        </form>
+
+        <div class="news-section">
+            <div class="news-header">
+                <span>JOURNAL DU SYSTÈME</span>
+                <span class="blink-status">● LIVE</span>
+            </div>
+            <div class="news-box">
+                <div class="news-item">
+                    <span class="news-date">[17/01/2026 13:39]</span><br>
+                    Proposition du Projet a l'administration scientifique
+                <div class="news-item">
+                    <span class="news-date">[26/01/2026 11:49]</span><br>
+                    Création du drive de Backup
+                <div class="news-item">
+                    <span class="news-date">[01/02/2026 17:12]</span><br>
+                    Supression de la liste des membres et création de la catégorie "protocoles"
+                </div>
+            </div>
+        </div>
+        <div id="error-message" class="error-msg">⚠ ACCÈS REFUSÉ : ACCRÉDITATION INSUFFISANTE</div>
+
+        <div class="footer-warning">
+            <strong>AVERTISSEMENT :</strong> L'accès à ce terminal est strictement réservé au personnel affecté au PROJET PATHONOS.
+        </div>
+    </div>
+
+    <script>
+        /**
+         * AJOUTER DES MEMBRES ICI
+         * Structure : "identifiant": ["mot_de_passe", "page_de_redirection"]
+         */
+        const BASE_DONNEES_PERSONNEL = {
+            "ADMIN": ["1234", "indexADM.html"],
+            "SECU": ["1234", "indexSEC.html"],
+            "SCI": ["1234", "indexSCI.html"],
+            "MEDIC": ["1234", "indexMED.html"],
+            "Hunter Snow": ["1234", "indexSCI.html"]
+        };
+
+        function verifierLogin() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const errorBox = document.getElementById('error-message');
+            const btn = document.getElementById('loginBtn');
+
+            if (BASE_DONNEES_PERSONNEL[user]) {
+                const infos = BASE_DONNEES_PERSONNEL[user];
+                const motDePasseCorrect = infos[0];
+                const lienRedirection = infos[1];
+
+                if (pass === motDePasseCorrect) {
+                    errorBox.style.display = 'none';
+                    btn.style.background = '#006400';
+                    btn.innerText = 'AUTHENTIFIÉ - ACCÈS EN COURS...';
+                    
+                    setTimeout(() => {
+                        window.location.href = lienRedirection;
+                    }, 1000);
+                    return;
+                }
+            }
+
+            errorBox.style.display = 'block';
+            btn.style.background = '#8a0000';
+            setTimeout(() => { btn.style.background = 'black'; }, 1000);
+        }
+    </script>
+
+</body>
+</html>

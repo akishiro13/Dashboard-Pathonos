@@ -194,13 +194,6 @@
             min-width: 30px;
         }
 
-        .metric-summary {
-            font-size: 0.8rem;
-            color: #444;
-            margin-top: 3px;
-            font-style: italic;
-        }
-
         /* Canvas hidden used for generation */
         #certCanvas {
             display: none;
@@ -248,7 +241,7 @@
 
         <div class="dashboard-grid">
             <div id="bars-container">
-                </div>
+            </div>
             
             <div class="chart-container">
                 <canvas id="radarChart"></canvas>
@@ -262,7 +255,7 @@
     </div>
 </div>
 
-<canvas id="certCanvas" width="800" height="600"></canvas>
+<canvas id="certCanvas" width="800" height="900"></canvas>
 
 <script>
     // INIT DATE
@@ -339,6 +332,7 @@
     let finalScoreGlobal = 0;
     let finalStatusGlobal = "";
     let agentNameGlobal = "";
+    let detailedScoresGlobal = []; // ADDED: To store category results
 
     function calculateResults() {
         // Get Name
@@ -348,6 +342,7 @@
         let totalScoreSum = 0;
         let catScores = [];
         let labels = [];
+        detailedScoresGlobal = []; // Reset detailed scores
 
         // Validation Check
         const inputs = document.querySelectorAll('input[type="radio"]:checked');
@@ -367,6 +362,12 @@
             catScores.push(percentage);
             totalScoreSum += percentage;
             labels.push(cat.id.toUpperCase());
+
+            // Save for certificate
+            detailedScoresGlobal.push({
+                name: cat.name,
+                score: percentage
+            });
 
             const barHTML = `
                 <div class="metric-item">
@@ -425,55 +426,83 @@
         });
     }
 
-    // CERTIFICATE GENERATION
+    // CERTIFICATE GENERATION - MODIFIED FOR CATEGORIES
     function downloadCertificate() {
         const canvas = document.getElementById('certCanvas');
         const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
         
         // Background
         ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, 800, 600);
+        ctx.fillRect(0, 0, w, h);
         
         // Borders
         ctx.lineWidth = 10;
         ctx.strokeStyle = "#000000";
-        ctx.strokeRect(20, 20, 760, 560);
+        ctx.strokeRect(20, 20, w - 40, h - 40);
         
         ctx.lineWidth = 2;
-        ctx.strokeRect(35, 35, 730, 530);
+        ctx.strokeRect(35, 35, w - 70, h - 70);
 
         // Header
         ctx.fillStyle = "#000000";
         ctx.font = "bold 40px 'Courier New'";
         ctx.textAlign = "center";
-        ctx.fillText("OFFICIAL EVALUATION PEM", 400, 100);
+        ctx.fillText("OFFICIAL EVALUATION PEM", w / 2, 100);
         
-        ctx.fillRect(100, 120, 600, 5); // Line under title
+        ctx.fillRect(100, 120, w - 200, 5); // Line under title
 
         // Content Info
         ctx.textAlign = "left";
-        ctx.font = "bold 25px 'Courier New'";
+        ctx.font = "bold 22px 'Courier New'";
         
         const startX = 100;
-        let startY = 200;
-        const spacing = 50;
+        let cursorY = 180;
+        const spacing = 35;
 
-        ctx.fillText(`AGENT IDENTITY : ${agentNameGlobal.toUpperCase()}`, startX, startY);
-        ctx.fillText(`DATE           : ${new Date().toLocaleDateString()}`, startX, startY + spacing);
-        ctx.fillText(`LOCATION       : CLASSIFIED`, startX, startY + spacing * 2);
-        
-        // Score Box
-        ctx.strokeRect(startX, startY + spacing * 3, 600, 150);
+        // Identity Section
+        ctx.fillText(`AGENT IDENTITY : ${agentNameGlobal.toUpperCase()}`, startX, cursorY);
+        cursorY += spacing;
+        ctx.fillText(`DATE           : ${new Date().toLocaleDateString()}`, startX, cursorY);
+        cursorY += spacing;
+        ctx.fillText(`LOCATION       : CLASSIFIED`, startX, cursorY);
+        cursorY += 50; // Extra Gap
+
+        // Categories Breakdown Section (NEW)
+        ctx.font = "bold 18px 'Courier New'";
+        ctx.fillText("/// DETAILED PROFICIENCY BREAKDOWN ///", startX, cursorY);
+        cursorY += 30;
+
+        ctx.font = "18px 'Courier New'";
+        detailedScoresGlobal.forEach(item => {
+            // Create dots for visual connector
+            let name = item.name;
+            let dots = " ..................................................";
+            let combined = (name + dots).substring(0, 45); 
+            
+            ctx.fillText(`${combined} ${item.score}/100`, startX, cursorY);
+            cursorY += 30;
+        });
+
+        cursorY += 30; // Gap before final score
+
+        // Score Box (Shifted down)
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 4;
+        ctx.strokeRect(startX, cursorY, w - 200, 140);
         
         ctx.font = "20px 'Courier New'";
-        ctx.fillText("OVERALL PERFORMANCE INDEX:", startX + 20, startY + spacing * 3 + 40);
+        ctx.fillStyle = "#000000";
+        ctx.fillText("OVERALL PERFORMANCE INDEX:", startX + 20, cursorY + 40);
         
         ctx.font = "bold 60px 'Courier New'";
-        ctx.fillText(`${finalScoreGlobal}/100`, startX + 20, startY + spacing * 3 + 110);
+        ctx.textAlign = "left";
+        ctx.fillText(`${finalScoreGlobal}/100`, startX + 20, cursorY + 110);
         
-        // Status Stamp
+        // Status Stamp (Rotated)
         ctx.save();
-        ctx.translate(500, startY + spacing * 3 + 80);
+        ctx.translate(w - 200, cursorY + 80);
         ctx.rotate(-0.2);
         ctx.strokeStyle = "#000000";
         ctx.lineWidth = 5;
@@ -485,9 +514,9 @@
         ctx.restore();
 
         // Footer
-        ctx.font = "italic 15px 'Courier New'";
+        ctx.font = "italic 14px 'Courier New'";
         ctx.textAlign = "center";
-        ctx.fillText("This document is classified. Unauthorized distribution is lethal.", 400, 560);
+        ctx.fillText("This document is classified. Unauthorized distribution is lethal.", w / 2, h - 30);
 
         // Download Trigger
         const link = document.createElement('a');

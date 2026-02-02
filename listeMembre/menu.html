@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personnel du Projet : Liste</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Protocoles Spéciaux : Projet Pathonos</title>
     
     <style>
         :root {
@@ -13,7 +11,7 @@
             --bg-color: #fff;
             --header-bg: #f4f4f4;
             --alert-red: #8a0000;
-            --status-green: #006400;
+            --border-dark: #000;
         }
 
         * { box-sizing: border-box; }
@@ -28,351 +26,254 @@
             align-items: center;
         }
 
-        /* Le conteneur du dossier */
         .dossier-container {
             background-color: var(--bg-color);
             width: 100%;
-            max-width: 1000px;
-            padding: 40px;
-            border: 1px solid #000;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            max-width: 950px;
+            padding: 50px;
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
             position: relative;
         }
 
         /* --- HEADER --- */
         .top-header {
-            border-bottom: 2px solid black;
+            border-bottom: 3px double black;
             padding-bottom: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: flex-start;
         }
 
-        .header-title h1 {
+        .header-left h1 {
             text-transform: uppercase;
             margin: 0;
-            font-size: 1.5em;
+            font-size: 1.4em;
+            text-decoration: underline;
         }
 
-        .project-code {
+        .security-stamp {
+            border: 3px solid var(--alert-red);
+            color: var(--alert-red);
+            padding: 5px 15px;
             font-weight: bold;
-            border: 1px solid black;
+            text-transform: uppercase;
+            transform: rotate(-5deg);
+            font-size: 1.2em;
+            position: absolute; 
+            right: 40px; 
+            top: 40px;
+            opacity: 0.8;
+        }
+
+        /* --- CONTENU --- */
+        .category-header {
+            background: #000;
+            color: #fff;
             padding: 5px 10px;
-            background: #eee;
-        }
-
-        /* --- CONTROLS (Masqués sur le PDF) --- */
-        .controls-bar {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding: 10px;
-            background: var(--header-bg);
-            border: 1px solid black;
-        }
-
-        .search-input, .filter-select {
-            font-family: var(--font-primary);
-            border: 1px solid black;
-            padding: 8px;
-            background: white;
-            outline: none;
-        }
-
-        .search-input { flex-grow: 1; }
-
-        .btn-action {
-            background: black;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-family: var(--font-primary);
             font-weight: bold;
-        }
-
-        /* --- SECTION DIRECTEUR --- */
-        .director-card {
-            border: 2px solid black;
-            padding: 20px;
-            margin-bottom: 40px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .director-photo {
-            width: 100px;
-            height: 100px;
-            border: 1px solid black;
-            object-fit: cover;
-            filter: grayscale(100%);
-        }
-
-        .role-badge { 
-            background: black; 
-            color: white; 
-            padding: 2px 6px; 
-            font-size: 0.8em; 
+            margin-top: 25px;
+            margin-bottom: 10px;
             text-transform: uppercase;
+            font-size: 1.1em;
         }
 
-        /* --- TABLEAU DU PERSONNEL --- */
-        .roster-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
+        .protocol-item {
+            margin-bottom: 15px;
+            border-left: 3px solid #ccc;
+            padding-left: 15px;
+            page-break-inside: avoid;
         }
 
-        .roster-table th {
-            text-align: left;
-            background-color: black;
-            color: white;
-            padding: 12px;
-            text-transform: uppercase;
-            border: 1px solid black;
+        .proto-id {
+            color: var(--alert-red);
+            font-weight: bold;
+            text-decoration: underline;
+            margin-right: 5px;
         }
 
-        .roster-table td {
-            border: 1px solid black;
-            padding: 10px;
+        /* --- LISTES DANS LES PROTOCOLES --- */
+        .step-list {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding-left: 20px;
+        }
+        .step-list li {
+            margin-bottom: 3px;
         }
 
-        .roster-table tr:nth-child(even) { background-color: #f9f9f9; }
-
-        .status-dot {
-            height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 5px;
+        /* --- SPECIAL STYLES --- */
+        .urgent-box {
+            border: 2px solid var(--alert-red);
+            background-color: #fff5f5;
+            padding: 15px;
+            margin-top: 20px;
         }
 
-        .st-active { background-color: var(--status-green); }
-
-        .btn-view {
-            text-decoration: none;
-            color: black;
-            border: 1px solid black;
-            padding: 2px 8px;
-            font-size: 0.8em;
-            text-transform: uppercase;
-        }
-
-        .btn-download-pdf {
+        .urgent-box .proto-id {
+            font-size: 1.2em;
             background: var(--alert-red);
             color: white;
-            border: none;
-            padding: 10px 20px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            font-family: var(--font-primary);
-            align-self: flex-end;
+            padding: 2px 5px;
+            text-decoration: none;
+        }
+
+        .irl-note {
+            font-size: 0.85em;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* --- SIGNATURES --- */
+        .footer-signatures {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+            font-size: 0.8em;
+        }
+
+        .signature-line {
+            width: 200px;
+            border-top: 1px solid black;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { background: white; padding: 0; }
+            .dossier-container { box-shadow: none; border: none; width: 100%; max-width: 100%; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <button class="btn-download-pdf" onclick="telechargerDossier()">📥 TÉLÉCHARGER LE DOSSIER COMPLET (PDF)</button>
+    <button class="no-print" style="margin-bottom: 10px; cursor:pointer; padding: 10px; font-weight: bold;" onclick="window.print()">🖨️ IMPRIMER LA FICHE DE PROTOCOLES</button>
 
-    <div class="dossier-container" id="capture-zone">
+    <div class="dossier-container">
+        <div class="security-stamp">STRICTE APPLICATION</div>
         
         <div class="top-header">
-            <div class="header-title">
-                <h1>ANNUAIRE DU PERSONNEL</h1>
-                <div style="font-size: 0.9em;">AFFECTATION : PROJET "Pathonos"</div>
+            <div class="header-left">
+                <h1>PROTOCOLES SPÉCIAUX</h1>
+                <div>UNITÉ DE GESTION : PROJET "PATHONOS"</div>
+                <div style="font-size: 0.8em; margin-top: 5px;">RÉF: SCP-1025-OPS</div>
             </div>
-            <div class="project-code">CODE: 1025-1-2026-lvl2</div>
-        </div>
-
-        <div class="controls-bar" id="no-print-1">
-            <input type="text" class="search-input" placeholder="Rechercher par ID ou Nom..." id="search-input">
-            <select class="filter-select" id="filter-select">
-                <option>Tous les Départements</option>
-                <option>Recherche</option>
-                <option>Sécurité</option>
-                <option>Confinement</option>
-            </select>
-            <button class="btn-action" onclick="filtrerMembres()">FILTRER</button>
-            <button class="btn-action" onclick="ajouterMembre()">AJOUTER UN MEMBRE</button>
-        </div>
-
-        <div class="director-card">
-            <img src="https://via.placeholder.com/150?text=DIRECTOR" alt="Director" class="director-photo">
-            <div class="director-info">
-                <span class="role-badge">Directeur du Projet</span>
-                <h2>A NOMMER</h2>
-                <div>Accréditation : Non déterminer</div>
-                <div style="margin-top: 5px; font-style: italic;">"La vigilance est notre première ligne de défense."</div>
+            <div style="text-align: right; font-weight: bold;">
+                NIVEAU D'ACCÈS REQUIS<br>
+                <span style="font-size: 1.5em;">3</span>
             </div>
         </div>
 
-        <table class="roster-table">
-            <thead>
-                <tr>
-                    <th style="width: 10%;">ID</th>
-                    <th style="width: 25%;">Nom</th>
-                    <th style="width: 15%;">Département</th>
-                    <th style="width: 10%;">Niveau</th>
-                    <th style="width: 15%;">Statut</th>
-                    <th style="width: 10%;">Fichier</th>
-                </tr>
-            </thead>
-            <tbody id="personnel-tbody">
-                <!-- La liste sera générée dynamiquement ici -->
-            </tbody>
-        </table>
+        <div class="category-header">1. Agents de Sécurité (ADS)</div>
+        
+        <div class="protocol-item">
+            <span class="proto-id">PS-ADS-1</span>
+            Tout ADS intégré au test ne doit prendre sa fin de service en aucun cas avant la fin du test.
+        </div>
+        
+        <div class="protocol-item">
+            <span class="proto-id">PS-ADS-2</span>
+            Le nombre de sommations données aux classes dédiées en cas de mauvais comportement passe de 3 à 1 (aucune erreur tolérée, à indiquer aux classes dédiées) pour des raisons de sécurité sanitaire.
+        </div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PS-ADS-3</span>
+            Tout agent ADS doit porter un équipement de protection contre les maladies minimum, à savoir un masque en coton blanc standard directement récupéré au secteur médical.
+        </div>
+
+        <div class="category-header">2. Classes D (CD)</div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PS-CD-01</span>
+            Les classes D ont l’obligation formelle de ne plus prendre de décision par eux-mêmes au moment où ils rentrent dans la chambre de confinement de 1025 sous peine de mort.
+        </div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PS-CD-2</span>
+            Toute classe dédiée malade et soignable doit être reclassée "personnel de classe E" le temps des soins. Puis la procédure PFT-1025-1 doit être enclenchée.
+        </div>
+
+        <div class="category-header">3. Personnel Général (PER)</div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PS-PER-1</span>
+            Aucun membre, à l’exception des personnels chargés d’inspection, n’est autorisé dans la zone safe + confinement temporaire.
+        </div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PS-PER-2</span>
+            Tout membre non essentiel au test doit attendre à l’extérieur des zones de confinement leur appel pour effectuer leur travail.
+        </div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PS-PER-3</span>
+            Tous les membres du personnel, sans exception, doivent porter un masque dans la zone de confinement (mesure de sécurité sanitaire).
+        </div>
+
+        <div class="category-header">4. Confinement & SCP-1025</div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PS-GEN-1</span>
+            Pendant toute la durée des tests, la zone de confinement safe est condamnée temporairement pour éviter toute fuite de maladies potentiellement transmissibles et n’est ouverte qu’à l’exécution des procédures PFT-1025-1 et PFT-1025-2.
+        </div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PS-1025-1</span>
+            <p style="margin-top:0">Les images extraites de SCP-1025 sont nommées SCP-1025-2. Elles doivent être mises en quarantaine dans un coffre fermé à clé pour feuilles classifiées de format A4 dans l’étagère de l’anti-chambre de SCP-1025. Toute personne déplaçant le coffre doit être autorisée par un chercheur du programme de niveau 2 minimum. Jusqu’à la phase 4 de la phase DE-1025-2 prouvant ou non que ces images sont anormales, SCP-1025-2 doit être considérée comme anormale et des mesures de sécurité standard anti-effet mémétique visuel doivent être engagées.</p>
+            <p>Dans le cadre où, à la phase 4 de DE-1025-2, il serait prouvé que SCP-1025-2 serait identifié comme non anormal, un dossier devra être monté pour collecter toutes les maladies de SCP-1025 et une étude approfondie, grâce à la phase 1 de DE-1025-2, pourra être effectuée pour des recherches plus approfondies.</p>
+        </div>
+
+        <div class="category-header">5. Procédures de Fin de Test (PFT)</div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PFT-1025-1</span> <strong>(Sujet à l’apparence sain)</strong>
+            <ul class="step-list">
+                <li>Visite au service médical pour un check-up complet pour être sûr de l’état de santé.</li>
+                <li>Administration amnésique de classe A.</li>
+                <li>Renvoi à la ZD.</li>
+                <li>Fin de Procédure.</li>
+            </ul>
+        </div>
+
+        <div class="protocol-item">
+            <span class="proto-id">PFT-1025-2</span> <strong>(Sujet malade)</strong>
+            <ul class="step-list">
+                <li>Appel d’un médecin.</li>
+                <li>Diagnostic complet.</li>
+                <li>Élimination si la maladie est non guérissable.</li>
+                <li>Si guérissable : administration des soins puis enchaînement sur PFT-1025-1.</li>
+            </ul>
+        </div>
+
+        <div class="urgent-box">
+            <div style="text-align: center; margin-bottom: 10px; font-weight: bold; color: var(--alert-red);">--- PROTOCOLE CRITIQUE ---</div>
+            <div class="protocol-item" style="border-left: none; padding: 0;">
+                <span class="proto-id">PS-URG-1</span><br><br>
+                En cas de contamination d’un membre du personnel possédant un équipement de protection standard (masques en coton blanc récupérés au secteur médical), les classes dédiées doivent être abattues sur-le-champ et tout le personnel se trouvant en zone de confinement safe (quel que soit son rôle) doit être envoyé en confinement temporaire et être reclassé « personnel de classe E ».<br><br>
+                
+                Toute la zone de confinement safe doit être condamnée et aucune personne n’est autorisée à entrer. Toute personne de niveau 4 ou plus entrant sans accord d’un médecin sera classée en tant que classe E et toute personne en dessous du niveau 4 sera immédiatement abattue.<br><br>
+                
+                <strong>DÉLAI DE QUARANTAINE :</strong> La zone restera sous quarantaine pendant 10 heures <span class="irl-note">(10 minutes IRL)</span>, le temps que le personnel potentiellement contaminé soit mis en confinement.<br><br>
+                
+                Après ce délai, ou un message à la radio indiquant que tout le monde est à son confinement, une équipe d’intervention armée rentrera et aura une obligation de faire feu sur toute personne hors de son confinement temporaire, suivie d’une équipe médicale autorisée exceptionnellement à venir en aide au personnel infecté qui s'est confiné au Confinement Temporaire.
+            </div>
+        </div>
+
+        <div class="footer-signatures">
+            <div>
+                <strong>Resp. Recherche Scientifique</strong><br>
+                <div class="signature-line">En attente de Validation</div>
+            </div>
+            <div>
+                <strong>Directeur de Programme</strong><br>
+                <div class="signature-line">Lu Et Approuvée</div>
+            </div>
+        </div>
     </div>
-
-    <script>
-        let membres = []; // Tableau pour stocker les données des membres
-
-        // Fonction pour charger la liste des fichiers depuis membres.json
-        async function chargerMembres() {
-            try {
-                const response = await fetch('personnel/membres.json');
-                if (!response.ok) {
-                    throw new Error('Fichier membres.json non trouvé');
-                }
-                const fichiers = await response.json(); // Array de { "fichier": "nom.html" }
-
-                // Charger chaque fichier HTML et extraire les données
-                membres = [];
-                for (const item of fichiers) {
-                    const data = await chargerDonneesMembre(item.fichier);
-                    if (data) {
-                        membres.push(data);
-                    }
-                }
-                afficherMembres(membres);
-            } catch (error) {
-                console.error('Erreur lors du chargement des membres:', error);
-                document.getElementById('personnel-tbody').innerHTML = '<tr><td colspan="6">Erreur de chargement des données du personnel.</td></tr>';
-            }
-        }
-
-        // Fonction pour charger et parser un fichier HTML de membre
-        async function chargerDonneesMembre(fichier) {
-            try {
-                const response = await fetch('personnel/' + fichier);
-                if (!response.ok) {
-                    throw new Error('Fichier ' + fichier + ' non trouvé');
-                }
-                const htmlText = await response.text();
-
-                // Créer un DOM temporaire pour parser le HTML
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlText, 'text/html');
-
-                // Extraire les données des éléments
-                const id = doc.getElementById('out_id')?.innerText || 'N/A';
-                const nom = doc.getElementById('out_nom')?.innerText || 'N/A';
-                const poste = doc.getElementById('out_poste')?.innerText || 'N/A';
-                const niveau = doc.getElementById('out_lvl')?.innerText || 'N/A';
-                const sexe = doc.getElementById('out_sexe')?.innerText || 'N/A';
-                const ddn = doc.getElementById('out_ddn')?.innerText || 'N/A';
-                const nat = doc.getElementById('out_nat')?.innerText || 'N/A';
-                const eth = doc.getElementById('out_eth')?.innerText || 'N/A';
-                const aff = doc.getElementById('out_aff')?.innerText || 'N/A';
-                const med = doc.getElementById('out_med')?.innerText || 'N/A';
-                const global = doc.getElementById('out_global')?.innerText || 'N/A';
-
-                // Mapper le département basé sur le poste (exemple simple, ajustez selon vos besoins)
-                let departement = 'Inconnu';
-                if (poste.toLowerCase().includes('chercheur') || poste.toLowerCase().includes('scientifique')) {
-                    departement = 'Recherche';
-                } else if (poste.toLowerCase().includes('sécurité') || poste.toLowerCase().includes('garde')) {
-                    departement = 'Sécurité';
-                } else if (poste.toLowerCase().includes('confinement')) {
-                    departement = 'Confinement';
-                }
-
-                // Statut : supposé ACTIF par défaut, ou dérivé d'autres champs si nécessaire
-                const statut = 'ACTIF';
-
-                return {
-                    id: id,
-                    nom: nom,
-                    departement: departement,
-                    niveau: niveau,
-                    statut: statut,
-                    fichier: fichier,
-                    // Autres données si besoin pour extension future
-                    poste: poste,
-                    sexe: sexe,
-                    ddn: ddn,
-                    nat: nat,
-                    eth: eth,
-                    aff: aff,
-                    med: med,
-                    global: global
-                };
-            } catch (error) {
-                console.error('Erreur lors du chargement de ' + fichier + ':', error);
-                return null;
-            }
-        }
-
-        // Fonction pour afficher les membres dans la table
-        function afficherMembres(liste) {
-            const tbody = document.getElementById('personnel-tbody');
-            tbody.innerHTML = ''; // Vider le contenu existant
-
-            liste.forEach(membre => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${membre.id}</td>
-                    <td><strong>${membre.nom}</strong></td>
-                    <td>${membre.departement}</td>
-                    <td>${membre.niveau}</td>
-                    <td><span class="status-dot st-active"></span> ${membre.statut}</td>
-                    <td><a href="personnel/${membre.fichier}" class="btn-view">Ouvrir</a></td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // Fonction pour filtrer les membres
-        function filtrerMembres() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const filterDept = document.getElementById('filter-select').value;
-
-            let filtered = membres.filter(membre => {
-                const matchesSearch = membre.id.toLowerCase().includes(searchTerm) || membre.nom.toLowerCase().includes(searchTerm);
-                const matchesDept = filterDept === 'Tous les Départements' || membre.departement === filterDept;
-                return matchesSearch && matchesDept;
-            });
-
-            afficherMembres(filtered);
-        }
-
-        // Charger les membres au chargement de la page
-        window.onload = chargerMembres;
-
-        function telechargerDossier() {
-            const element = document.getElementById('capture-zone');
-            const controls = document.getElementById('no-print-1');
-
-            // Masquer les éléments interactifs avant la capture
-            controls.style.display = 'none';
-
-            const options = {
-                margin: 0.3,
-                filename: 'Annuaire_Personnel_PRJ992.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
-
-            // Générer le PDF
-            html2pdf().set(options).from(element).save().then(() => {
-                // Réafficher les éléments après le téléchargement
-                controls.style.display = 'flex';
-            });
-        }
-
-        function ajouterMembre() {
-            // Rediriger vers la page d'ajout de membre
-            window.location.href = 'test.html';  // Remplacez par l'URL de votre page d'ajout
-        }
-    </script>
 
 </body>
 </html>
