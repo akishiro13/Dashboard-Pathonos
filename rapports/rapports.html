@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SCIPNET : Générateur de Rapport</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+
+        :root {
+
+            --font-primary: 'Courier New', Courier, monospace;
+
+            --bg-color: #fff;
+
+            --alert-red: #8a0000;
+
+            --border-dark: #000;
+
+        }
+
+
+
+        * { box-sizing: border-box; }
+
+
+
+        body {
+
+            font-family: var(--font-primary);
+
+            background-color: #dcdcdc;
+
+            padding: 40px 20px;
+
+            margin: 0;
+
+            display: flex;
+
+            justify-content: center;
+
+        }
+
+
+
+        .dossier-container {
+
+            background-color: var(--bg-color);
+
+            width: 100%;
+
+            max-width: 1100px;
+
+            padding: 40px;
+
+            border: 1px solid var(--border-dark);
+
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+
+        }
+
+
+
+        /* --- HEADER --- */
+
+        .header {
+
+            border-bottom: 3px solid black;
+
+            margin-bottom: 30px;
+
+            padding-bottom: 15px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 1.5em;
+
+            text-transform: uppercase;
+
+        }
+
+
+
+        .top-secret-stamp {
+
+            border: 3px solid var(--alert-red);
+
+            color: var(--alert-red);
+
+            padding: 5px 15px;
+
+            font-weight: bold;
+
+            transform: rotate(-5deg);
+
+            text-transform: uppercase;
+
+        }
+
+
+
+        /* --- FORMULAIRE & PREVIEW --- */
+
+        .main-content {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 40px;
+
+        }
+
+
+
+        label {
+
+            display: block;
+
+            font-weight: bold;
+
+            font-size: 0.8em;
+
+            text-transform: uppercase;
+
+            margin-bottom: 5px;
+
+            margin-top: 15px;
+
+        }
+
+
+
+        input, textarea {
+
+            width: 100%;
+
+            padding: 10px;
+
+            border: 1px solid #000;
+
+            font-family: var(--font-primary);
+
+            background: #f9f9f9;
+
+            outline: none;
+
+        }
+
+
+
+        input:focus, textarea:focus {
+
+            background: #fff;
+
+            border-color: #555;
+
+        }
+
+
+
+        .preview-area {
+
+            background-color: #f0f0f0;
+
+            border: 1px dashed black;
+
+            padding: 25px;
+
+            font-size: 0.9em;
+
+            white-space: pre-wrap;
+
+            min-height: 500px;
+
+            position: relative;
+
+        }
+
+
+
+        .preview-area::before {
+
+            content: "CONFIDENTIEL";
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%) rotate(-30deg);
+
+            font-size: 4em;
+
+            color: rgba(0,0,0,0.03);
+
+            pointer-events: none;
+
+        }
+
+
+
+        .btn-copy {
+
+            margin-top: 20px;
+
+            width: 100%;
+
+            background: #000;
+
+            color: #fff;
+
+            border: none;
+
+            padding: 15px;
+
+            font-family: var(--font-primary);
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+
+        .btn-copy:hover {
+
+            background: #333;
+
+        }
+
+
+
+        .btn-pdf {
+
+            margin-top: 10px;
+
+            width: 100%;
+
+            background: #8a0000;
+
+            color: #fff;
+
+            border: none;
+
+            padding: 15px;
+
+            font-family: var(--font-primary);
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+
+        .btn-pdf:hover {
+
+            background: #600000;
+
+        }
+
+
+
+        .btn-back {
+
+            background: transparent;
+
+            border: 1px solid black;
+
+            padding: 5px 10px;
+
+            cursor: pointer;
+
+            font-family: var(--font-primary);
+
+            font-size: 0.8em;
+
+            margin-bottom: 10px;
+
+        }
+
+
+
+        @media (max-width: 800px) {
+
+            .main-content { grid-template-columns: 1fr; }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <div class="dossier-container">
+
+        <button class="btn-back" onclick="window.history.back()">← RETOUR TERMINAL</button>
+
+        
+
+        <div class="header">
+
+            <div>
+
+                <h1>GÉNÉRATEUR DE RAPPORT</h1>
+
+                <small>PROJET PATHONOS - SITE-80</small>
+
+            </div>
+
+            <div class="top-secret-stamp">NIVEAU 2 REQUIS</div>
+
+        </div>
+
+
+
+        <div class="main-content">
+
+            <section>
+
+                <div style="display: flex; gap: 10px;">
+
+                    <div style="flex:1;"><label>Identité</label><input type="text" id="nom" oninput="update()"></div>
+
+                    <div style="flex:1;"><label>Grade</label><input type="text" id="grade" oninput="update()"></div>
+
+                </div>
+
+
+
+                <div style="display: flex; gap: 10px;">
+
+                    <div style="flex:1;"><label>Matricule SCP</label><input type="text" id="scp" placeholder="SCP-1025" oninput="update()"></div>
+
+                    <div style="flex:1;"><label>Succès ?</label><input type="text" id="succes" placeholder="OUI / NON" oninput="update()"></div>
+
+                </div>
+
+
+
+                <label>But Scientifique</label>
+
+                <input type="text" id="but" placeholder="Objectif du test..." oninput="update()">
+
+
+
+                <div style="display: flex; gap: 10px;">
+
+                    <div style="flex:1;"><label>Date du Test</label><input type="text" id="dTest" oninput="update()"></div>
+
+                    <div style="flex:1;"><label>Date du Rapport</label><input type="text" id="dRapport" oninput="update()"></div>
+
+                </div>
+
+
+
+                <label>Personnel(s) Recherche</label>
+
+                <input type="text" id="pRecherche" oninput="update()">
+
+
+
+                <label>Personnel(s) Externe</label>
+
+                <input type="text" id="pExterne" oninput="update()">
+
+
+
+                <label>Déroulé de l'expérience</label>
+
+                <textarea id="deroule" rows="5" oninput="update()"></textarea>
+
+
+
+                <label>Conclusion</label>
+
+                <textarea id="conclusion" rows="3" oninput="update()"></textarea>
+
+
+
+                <label>Hypothèses (Facultatif)</label>
+
+                <input type="text" id="hypotheses" oninput="update()">
+
+            </section>
+
+
+
+            <section>
+
+                <label style="margin-top: 0;">Aperçu du Document Final</label>
+
+                <div id="preview" class="preview-area"></div>
+
+                
+
+                <button onclick="copyReport()" class="btn-copy">
+
+                    📋 COPIER LE RAPPORT POUR DISCORD / DOCS
+
+                </button>
+
+
+
+                <button onclick="generatePDF()" class="btn-pdf">
+
+                    📄 GÉNÉRER PDF - DOSSIER SCP
+
+                </button>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        function update() {
+
+            const fields = {
+
+                nom: document.getElementById('nom').value || "................",
+
+                grade: document.getElementById('grade').value || "................",
+
+                scp: document.getElementById('scp').value || "................",
+
+                but: document.getElementById('but').value || "................",
+
+                dTest: document.getElementById('dTest').value || "................",
+
+                dRapport: document.getElementById('dRapport').value || "................",
+
+                pRecherche: document.getElementById('pRecherche').value || "................",
+
+                pExterne: document.getElementById('pExterne').value || "................",
+
+                deroule: document.getElementById('deroule').value || "................",
+
+                conclusion: document.getElementById('conclusion').value || "................",
+
+                hypotheses: document.getElementById('hypotheses').value || "................",
+
+                succes: document.getElementById('succes').value || "................"
+
+            };
+
+
+
+            const report = `[ CLASSIFICATION : PROJET PATHONOS ]
+
+
+
+- Votre Identité : ${fields.nom}
+
+- Votre Grade : ${fields.grade}
+
+- Matricule du SCP : ${fields.scp}
+
+- But Scientifique : ${fields.but}
+
+
+
+- Date du test : ${fields.dTest}
+
+- Date du Rapport : ${fields.dRapport}
+
+- Personnel(s) de Recherche Présent : ${fields.pRecherche}
+
+- Personnel(s) Externe Présent : ${fields.pExterne}
+
+
+
+- Déroulé :
+
+${fields.deroule}
+
+
+
+- Conclusion : ${fields.conclusion}
+
+- Hypothèses : ${fields.hypotheses}
+
+- Est-ce un Succès : ${fields.succes}
+
+
+
+Cordialement, ${fields.nom}
+
+[ FIN DU RAPPORT ]`;
+
+
+
+            document.getElementById('preview').innerText = report;
+
+        }
+
+
+
+        function copyReport() {
+
+            const text = document.getElementById('preview').innerText;
+
+            navigator.clipboard.writeText(text);
+
+            alert("Rapport copié ! Vous pouvez maintenant le coller.");
+
+        }
+
+
+
+        async function generatePDF() {
+
+            const { jsPDF } = window.jspdf;
+
+            const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+
+
+            doc.setFont("courier");
+
+
+
+            // --- EN-TÊTE SCP ---
+
+            doc.setFontSize(16);
+
+            doc.text("FONDATION SCP - DOCUMENT CLASSIFIÉ", 20, 20);
+
+
+
+            doc.setFontSize(10);
+
+            doc.text("PROJET PATHONOS — SITE-80", 20, 27);
+
+
+
+            doc.setTextColor(138, 0, 0);
+
+            doc.setFontSize(14);
+
+            doc.text("NIVEAU 2 REQUIS", 140, 25);
+
+            doc.setTextColor(0, 0, 0);
+
+
+
+            doc.line(20, 32, 190, 32);
+
+
+
+            let y = 40;
+
+            const addLine = (text) => {
+
+                if (y > 270) {
+
+                    doc.addPage();
+
+                    y = 20;
+
+                }
+
+                doc.text(text, 20, y);
+
+                y += 7;
+
+            };
+
+
+
+            addLine("[ CLASSIFICATION : PROJET PATHONOS ]");
+
+            y += 5;
+
+
+
+            addLine("Identité : " + document.getElementById("nom").value || "N/A");
+
+            addLine("Grade : " + document.getElementById("grade").value || "N/A");
+
+            addLine("Matricule SCP : " + document.getElementById("scp").value || "N/A");
+
+            addLine("But Scientifique : " + document.getElementById("but").value || "N/A");
+
+
+
+            y += 5;
+
+            addLine("Date du Test : " + document.getElementById("dTest").value || "N/A");
+
+            addLine("Date du Rapport : " + document.getElementById("dRapport").value || "N/A");
+
+            addLine("Personnel Recherche : " + document.getElementById("pRecherche").value || "N/A");
+
+            addLine("Personnel Externe : " + document.getElementById("pExterne").value || "N/A");
+
+
+
+            y += 5;
+
+            addLine("DÉROULÉ DE L'EXPÉRIENCE :");
+
+
+
+            const deroule = document.getElementById("deroule").value || "Aucun détail fourni.";
+
+            const lines = doc.splitTextToSize(deroule, 160);
+
+            doc.text(20, y, lines);
+
+            y += lines.length * 7 + 5;
+
+
+
+            addLine("CONCLUSION : " + document.getElementById("conclusion").value || "N/A");
+
+            addLine("HYPOTHÈSES : " + document.getElementById("hypotheses").value || "N/A");
+
+            addLine("SUCCÈS : " + document.getElementById("succes").value || "N/A");
+
+
+
+            y += 10;
+
+            addLine("Rédigé par : " + document.getElementById("nom").value || "Agent inconnu");
+
+            addLine("[ FIN DU RAPPORT ]");
+
+
+
+            doc.setTextColor(200, 200, 200);
+
+            doc.setFontSize(40);
+
+            doc.text("CONFIDENTIEL", 60, 150, { angle: -30 });
+
+            doc.setTextColor(0, 0, 0);
+
+
+
+            doc.save("rapport_scp_pathonos.pdf");
+
+        }
+
+
+
+        update();
+
+    </script>
+
+</body>
+
+</html>

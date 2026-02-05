@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SCP FOUNDATION - INTERNAL DATABASE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* LE VRAI CYAN FLUO */
+            --scp-cyan: #00ffff; 
+            --scp-glow: rgba(0, 255, 255, 0.5);
+        }
+        body {
+            background-color: #050505;
+            color: var(--scp-cyan);
+            font-family: 'Courier Prime', monospace;
+            overflow-x: hidden;
+        }
+
+        /* Scanlines bleutées */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(0, 255, 255, 0.05), rgba(0, 255, 255, 0.02), rgba(0, 255, 255, 0.05));
+            z-index: 100;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .crt-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        /* Effet glitch identique au header que tu as aimé */
+        .header-glitch {
+            text-shadow: 2px 0 #991b1b, -2px 0 #00ffff;
+            color: #fff;
+        }
+
+        /* Bordure forcée en Cyan pour le Header */
+        .cyan-border {
+            border: 4px double #0891b2 !important; /* Cyan sombre pour la bordure double */
+        }
+
+        .protocol-box {
+            border: 1px solid #0891b2;
+            background: rgba(0, 20, 20, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+        }
+
+        .btn-back {
+            background: #0891b2;
+            color: white;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: all 0.3s;
+        }
+        
+        .btn-back:hover {
+            background: #00ffff;
+            color: black;
+            box-shadow: 0 0 20px #00ffff;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+    <div class="crt-overlay"></div>
+
+    <header class="max-w-6xl mx-auto mb-10 cyan-border p-6 relative bg-black/50">
+        <div class="absolute -top-4 left-6 bg-black px-4 text-red-600 font-bold tracking-[0.3em]">
+            TOP SECRET / EYES ONLY
+        </div>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-black uppercase header-glitch">Foundation Database</h1>
+                <p class="text-sm opacity-70 mt-2 text-cyan-400">SÉCURISER. CONTENIR. PROTÉGER. | Terminal v4.0.2</p>
+            </div>
+            <div class="text-right border-l-2 border-cyan-700 pl-4 hidden md:block">
+                <p class="text-[10px] text-cyan-400">USER: Scientifique</p>
+                <p class="text-[10px] text-cyan-400">LOCATION: SITE-80</p>
+                <p class="text-[10px] text-cyan-400" id="current-date"></p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto relative z-10">
+        <div class="flex justify-between items-center mb-8 border-b border-cyan-900 pb-2">
+            <h2 class="text-2xl font-bold uppercase text-white tracking-widest">> PROTOCOLES_SCIENTIFIQUES</h2>
+            <button onclick="location.href='../Untitled-1.html'" class="btn-back px-8 py-2 text-xs font-bold uppercase">
+                ← RETOUR
+            </button>
+        </div>
+
+        <div class="protocol-box p-8 space-y-6">
+            <div class="border-l-2 border-cyan-500 pl-6">
+                <h3 class="text-white font-bold uppercase mb-2">01. Manipulation d’anomalies</h3>
+                <p class="text-sm text-cyan-100/70">en attente de donnée</p>
+            </div>
+            <div class="border-l-2 border-cyan-500 pl-6">
+                <h3 class="text-white font-bold uppercase mb-2">02. Tests autorisés</h3>
+                <p class="text-sm text-cyan-100/70">en attente de donnée</p>
+            </div>
+            <div class="border-l-2 border-cyan-500 pl-6">
+                <h3 class="text-white font-bold uppercase mb-2">03. Éthique scientifique</h3>
+                <p class="text-sm text-cyan-100/70">en attente de donné</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('current-date').innerText = `DATE: ${new Date().toISOString().slice(0,10)} ${new Date().toLocaleTimeString()}`;
+    </script>
+</body>
+</html> 

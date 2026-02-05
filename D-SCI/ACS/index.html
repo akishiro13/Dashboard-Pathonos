@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<head>
+    <title>ACS Generator SITE 80</title>
+    <link rel="icon" type="image/x-png" href="images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+    <script rel="javascript" type="text/javascript" src="js/data.js"></script>
+    <script defer rel="javascript" type="text/javascript" src="js/javascript.js"></script>
+    <script defer rel="javascript" type="text/javascript" src="js/resizeAcsBar.js"></script>
+    <script defer rel="javascript" type="text/javascript" src="js/download.js"></script>
+    
+    <script defer rel="javascript" type="text/javascript" src="libs\node_modules/modern-screenshot/dist/index.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <div id="titleAreaPattern">
+            <div id="tileArea">
+                <h1>SCP Anomaly Classification System Bar Generator</h1>
+                <h3>[SCP] ACS Bar Generator v0.2.0</h3>
+            </div>
+        </div>
+        <nav class="fw600">
+            <a href="../Untitled-1.html">Back to Home</a>
+        </nav>
+    </header>
+    
+    <div class="infoBox" id="resizeInfoBox">
+        <button class="infoBoxClose" onclick="removeInfoBox('resizeInfoBox')">&times;</button>
+        <div class="infoBoxTextCont">
+            <p>Merci de vous référer au models</p>
+        </div>
+    </div>
+
+    <div class="sectionDiv" id="introTextSection">
+        <p>Customise and preview your own ACS bar.<br>
+           Export it as an image for off-site use or
+            convert it to wiki syntax.
+        </p>
+    </div>
+
+    <div id="generator">
+        <div class="sectionDiv" id="inputUISection">
+            <div class="UIsectionDiv" id="titleUIsectionDiv">
+                <h2>Item Title</h2>
+
+                <div class="settingDiv">
+                    <h3>Title</h3>
+                    <p><i>Example: 173-J</i></p>
+                    <input type="text" placeholder="0000" value="0000" id="inputItemTitle">
+
+                    <h3>Subtitle</h3>
+                    <p><i>Example: ITEM#:</i></p>
+                    <input type="text" placeholder="ITEM#:" value="ITEM#:" id="inputItemSubtitle">
+                </div>
+
+                <div class="settingDiv">
+                    <h3>Clearance Level <a href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#clearance-lvl" title="Clearance Level Explanation" target="_blank" class="textdeconone"><i class="fa fa-question-circle-o"></i></a></h3>
+                    <select id="inputAccessLevel">
+                        <option value="1">1 - Unrestricted</option>
+                        <option value="2">2 - Restricted</option>
+                        <option value="3">3 - Confidential</option>
+                        <option value="4">4 - Secret</option>
+                        <option value="5">5 - Top Secret</option>
+                        <option value="6">6 - Thaumiel</option>
+                        <option value="0">0 - Official Use</option>
+                        <option value="-1">Custom</option>
+                    </select>
+                    <div id="accessLevelCustom" class="disabled">
+                        <h4>Title</h4>
+                        <p><i>Example: LEVEL4</i></p>
+                        <input type="text" placeholder="LEVEL4" id="inputAccessLevelTitle">
+
+                        <h4>Subtitle</h4>
+                        <p><i>Example: SECRET</i></p>
+                        <input type="text" placeholder="SECRET" id="inputAccessLevelSubtitle">
+
+                        <h4>Number of Lines</h4>
+                        <p><i>Example: 4</i></p>
+                        <input type="number" placeholder="4" id="inputAccessLevelLines">
+                        
+                        <h4>Appearance of Lines</h4>
+                        <select id="inputAccessLevelLineAppearance">
+                            <option value="color">Colour</option>
+                            <!--<option value="image">Background Image [WIP]</option>-->
+                        </select>
+
+                        <div id="inputAccessLevelLineColorCont" class="disabled">
+                            <input type="color" value="#de752c" id="inputAccessLevelLineColor">
+                        </div>
+                        <div id="inputAccessLevelLineBGImageCont" class="disabled">
+                            <p>[WIP] <i>Images only (jpg, svg, png, etc)</i></p>
+                            <input type="file" accept="image/*" id="inputAccessLevelLineBGImage">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="UIsectionDivWrapper">
+                <div class="UIsectionDiv">
+                    <h2>Item Classification</h2>
+
+                    <div class="settingDiv">
+                        <h3>Object Class</h3>
+                        <h4>Primary</h4>
+                        <p><i>Title</i></p>
+                        <input type="text" placeholder="CONTAINMENT CLASS:" value="CONTAINMENT CLASS:" id="inputPrimaryObjectClassTitle">
+                        <p><i>Theme</i></p>
+                        <select id="inputPrimaryObjectClass">
+                            <option value="1">Safe</option>
+                            <option value="2">Euclid</option>
+                            <option value="3">Keter</option>
+                            <option value="4">Esoteric</option>
+                            <option value="5">Neutralized</option>
+                            <option value="6">Explained</option>
+                            <option value="0">Pending</option>
+                            <option value="-1">Custom [WIP]</option>
+                        </select>
+                        <input type="text" placeholder="SAFE" value="SAFE" id="inputPrimaryObjectClassSubtitle">
+
+                        <div id="inputPrimaryObjectClassCustomCont" class="disabled">
+                            <p><i>Color</i></p>
+                            <input type="color" value="#59a06d" id="inputPrimaryObjectClassColor">
+                            <p><i>Images only (jpg, svg, or png)</i></p>
+                            <input type="file" onchange="updateCustomImages(true)" accept="image/png, image/jpeg, image/svg" id="inputPrimaryObjectClassImage">
+                        </div>
+
+                        <h4>Secondary <a href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#secondary-class" title="Secondary Classes" target="_blank" class="textdeconone"><i class="fa fa-question-circle-o"></i></a></h4>
+                        <p><i>Theme</i></p>
+                        <input type="text" placeholder="SECONDARY CLASS:" value="SECONDARY CLASS:" id="inputSecondaryObjectClassTitle">
+                        <p><i>Theme</i></p>
+                        <select id="inputSecondaryObjectClass">
+                            <option value="0">None</option>
+                            <option value="1">Thaumiel</option>
+                            <option value="2">Apollyon</option>
+                            <option value="3">Archon</option>
+                            <option value="4">Cernunnos</option>
+                            <option value="5">Decommissioned</option>
+                            <option value="6">Hiemal</option>
+                            <option value="7">Tiamat</option>
+                            <option value="8">Ticonderoga</option>
+                            <option value="9">Uncontained</option>
+                            <option value="-1">Custom [WIP]</option>
+                        </select>
+                        <input type="text" placeholder="THAUMIEL" value="NONE" id="inputSecondaryObjectClassSubtitle">
+
+                        <div id="inputSecondaryObjectClassCustomCont" class="disabled">
+                            <p><i>Images only (jpeg, svg, or png)</i></p>
+                            <input type="file" onchange="updateCustomImages(true)" accept="image/png, image/jpeg, image/svg" id="inputSecondaryObjectClassImage">
+                            <p><i>Image URL</i><br><i class="comment warning">Unsupported by Image Download</i></p>
+                            <input type="text" placeholder="https://image.url" onchange="updateCustomImages(false)" id="inputSecondaryObjectClassImageURL">
+                        </div>
+                    </div>
+
+                    <div class="settingDiv">
+                        <h3>Disruption Class <a href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#disruption-class" title="Disruption Class Explanation" target="_blank" class="textdeconone"><i class="fa fa-question-circle-o"></i></a></h3>
+                        <p><i>Title</i></p>
+                        <input type="text" placeholder="DISRUPTION CLASS:" value="DISRUPTION CLASS:" id="inputDisruptionClassTitle">
+                        <p><i>Theme</i></p>
+                        <select id="inputDisruptionClass">
+                            <option value="1">Dark</option>
+                            <option value="2">Vlam</option>
+                            <option value="3">Keneq</option>
+                            <option value="4">Ekhi</option>
+                            <option value="5">Amida</option>
+                            <option value="0">None</option>
+                            <option value="-1">Custom [WIP]</option>
+                        </select>
+                        <input type="text" placeholder="DARK" value="DARK" id="inputDisruptionClassSubtitle">
+
+                        <div id="inputDisruptionClassCustomCont" class="disabled">
+                            <p><i>Color</i></p>
+                            <input type="color" value="#59a06d" id="inputDisruptionClassColor">
+                            <p><i>Images only (jpg, svg, or png)</i></p>
+                            <input type="file" onchange="updateCustomImages(true)" accept="image/png, image/jpeg, image/svg" id="inputDisruptionClassImage">
+                            <p><i>Level</i></p>
+                            <input type="text" placeholder="1" value="1" id="inputDisruptionClassLevel">
+                        </div>
+
+                        <h3>Risk Class <a href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#risk-class" title="Risk Class Explanation" target="_blank" class="textdeconone"><i class="fa fa-question-circle-o"></i></a></h3>
+                        <p><i>Title</i></p>
+                        <input type="text" placeholder="RISK CLASS:" value="RISK CLASS:" id="inputRiskClassTitle">
+                        <p><i>Theme</i></p>
+                        <select id="inputRiskClass">
+                            <option value="1">Notice</option>
+                            <option value="2">Caution</option>
+                            <option value="3">Warning</option>
+                            <option value="4">Danger</option>
+                            <option value="5">Critical</option>
+                            <option value="0">None</option>
+                            <option value="-1">Custom [WIP]</option>
+                        </select>
+                        <input type="text" placeholder="NOTICE" value="NOTICE" id="inputRiskClassSubtitle">
+
+                        <div id="inputRiskClassCustomCont" class="disabled">
+                            <p><i>Color</i></p>
+                            <input type="color" value="#59a06d" id="inputRiskClassColor">
+                            <p><i>Images only (jpg, svg, or png)</i></p>
+                            <input type="file" onchange="updateCustomImages(true)" accept="image/png, image/jpeg, image/svg" id="inputRiskClassImage">
+                            <p><i>Level</i></p>
+                            <input type="text" placeholder="1" value="1" id="inputRiskClassLevel">
+                        </div>
+                    </div>
+                    <div class="settingDiv">
+                        <h3>Extra Options</h3>
+                        <p><input type="checkbox" id="gridCheckbox" value="grid" checked="true"><label for="gridCheckbox">Grid Style</label><br><i class="comment">Disable to get a smaller<br>width</i></p>
+                        <p><label>Width of bar (pixels):</label><br><input type="number" id="acsBarWidthInput" name="width" min="0" max="5000" value=""><button id="acsBarWidthSubmit" onclick="setWidth(-1)">Set</button></p>
+                        <p><input type="checkbox" id="invertCheckbox" value="invert" checked="true"><label for="invertCheckbox">Invert Obj Image</label><br><i class="comment">Visible when you have a<br>2nd Obj Class</i></p>
+                        <p>
+                            <label class="switch">
+                                <input id="themeToggle" type="checkbox" onclick="toggleTheme()">
+                                <span class="slider round"></span>
+                            </label> Dark theme<br>
+                            <input type="checkbox" id="invertDiamondCheckbox" value="invert" checked="true"><label for="invertDiamondCheckbox" class="comment">Affect Diamond</label><br>
+                            <input type="checkbox" id="invertRingsCheckbox" value="invert" checked="true"><label for="invertRingsCheckbox" class="comment">Affect Rings</label><br>
+                            <input type="checkbox" id="invertBordersCheckbox" value="invert" checked="true"><label for="invertBordersCheckbox" class="comment">Affect Dividers</label><br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sectionDiv">
+            <h2>ACS Bar</h2>
+            <div id="acsbar">
+                <div id="resizeHandle"></div>
+                <div id="acsTop" class="width100 grid fw600">
+                    <div id="acsItem" class="">
+                        <div id="acsItemSubtitle" class="inblock em15">
+                            <p id="acsItemSubtitleText">ITEM#:</p>
+                        </div>
+                        <div id="acsItemTitle" class="inblock em35">
+                            <p id="acsItemTitleText">0000</p>
+                        </div>
+                    </div>
+                    <div id="acsLevelBars" class="fleft flex">
+                        <div id="acsLevelBarsCont">
+                            <div class="acsLevelBar"></div>
+                            <div class="acsLevelBar"></div>
+                            <div class="acsLevelBar"></div>
+                            <div class="acsLevelBar"></div>
+                        </div>
+                    </div>
+                    <div id="acsLevel" class="">
+                        <div id="acsLevelTitle" class="em25">
+                            <p id="acsLevelTitleText" >LEVEL1</p>
+                        </div>
+                        <div id="acsLevelSubtitle">
+                            <p id="acsLevelSubtitleText">UNRESTRICTED</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="acsMiddle" class="width100"></div>
+
+                <div id="acsBottom" class="width100 grid">
+                    <div id="acsObjDisRisk" class="grid borderright">
+                        <div id="acsObject" class="">
+                            <div id="acsObjectTextCont" class="flex fleft">
+                                <p id="acsObjectPrimaryText"><span id="acsObjectPrimaryTextSubtitle" class="">CONAINMENT CLASS:</span>
+                                    <br><span id="acsObjectPrimaryTextTitle" class="fw600 em2">SAFE</span></p>
+                                <p id="acsObjectSecondaryText" class="disabled"><span  id="acsObjectSecondaryTextSubtitle" >SECONDARY CLASS:</span>
+                                    <br><span id="acsObjectSecondaryTextTitle" class="fw600">NONE</span></p>
+                            </div>
+                            <div id="acsObjectImageCont" class="acsImageCont">
+                                <div id="acsObjectImageBGWrapper" class="acsImageBGWrapper">
+                                    <div id="acsObjectImageWrapper" class="acsImageWrapper fullcircle">
+                                        <img id="acsObjectImg" class="acsImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                    </div>
+                                    
+                                    <div id="acsSecondaryObjectImageWrapper" class="acsSecondImgWrapper disabled leftBorderRadius">
+                                        <div id="acsSecondaryObjectImageBG" class="bgblack acsSecondImgBG">
+                                            <img id="acsSecondaryObjectImg" class="acsSecondImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="acsDisRisk" class="grid">
+                            <div id="acsDis" class="acsDisRisks">
+                                <div id="acsDisTextCont" class="acsDisRisksTextCont fleft">
+                                    <p id="acsDisText"><span class="em075" id="acsDisruptionTextTitleTitle">DISRUPTION CLASS:</span><br><span id="acsDisrupionTextTitle" class="fw600">DARK</span></p>
+                                </div>
+                                <div id="acsDisImageCont" class="acsImageCont">
+                                    <div id="acsDisImageBGWrapper" class="acsImageBGWrapper bgblack">
+                                        <div id="acsDisImageWrapper" class="acsImageWrapper fullcircle acsDisRiskImageWrapper">
+                                            <img id="acsDisImg" class="acsImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                        </div>
+                                        
+                                        <div id="acsSecondaryDisImageWrapper" class="acsSecondImgWrapper leftBorderRadius">
+                                            <div id="acsSecondaryDisImageBG" class="bgblack acsSecondImgBG">
+                                                <p id="acsDisPText" class="acsSecondImgText fw600">1</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="acsRisk" class="acsDisRisks">
+                                <div id="acsRiskTextCont" class="acsDisRisksTextCont fleft">
+                                    <p id="acsRiskText" style="display: inline;"><span class="em075" id="acsRiskTextTitleTitle">RISK CLASS:</span><br><span id="acsRiskTextTitle" class="fw600">NOTICE</span></p>
+                                </div>
+                                <div id="acsRiskImageCont" class="acsImageCont">
+                                    <div id="acsRiskImageBGWrapper" class="acsImageBGWrapper bgblack">
+                                        <div id="acsRiskImageWrapper" class="acsImageWrapper fullcircle acsDisRiskImageWrapper">
+                                            <img id="acsRiskImg" class="acsImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                        </div>
+                                        
+                                        <div id="acsSecondaryRiskImageWrapper" class="acsSecondImgWrapper leftBorderRadius">
+                                            <div id="acsSecondaryRiskImageBG" class="bgblack acsSecondImgBG">
+                                                <p id="acsRiskPText" class="fw600 acsSecondImgText ">1</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="acsDiamond">
+                        <img id="acsDiamondImg" src="images/diamond.svg">
+                        <div class="quadrents">
+                            <div id="top-quad" class="quad"></div>
+                            <div id="right-quad" class="quad"></div>
+                            <div id="bottom-quad" class="quad"></div>
+                            <div id="left-quad" class="quad"></div>
+                        </div>
+                        <div id="acsSmallObjectImageCont" class="acsSmallImageCont">
+                            <div id="acsSmallObjectImageBGWrapper" class="acsSmallImageBGWrapper">
+                                <div id="acsSmallObjectImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
+                                    <img id="acsSmallObjectImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="acsSmallRiskImageCont" class="acsSmallImageCont">
+                            <div id="acsSmallRiskImageBGWrapper" class="acsSmallImageBGWrapper">
+                                <div id="acsSmallRiskImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
+                                    <img id="acsSmallRiskImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="acsSmallDisImageCont" class="acsSmallImageCont">
+                            <div id="acsSmallDisImageBGWrapper" class="acsSmallImageBGWrapper">
+                                <div id="acsSmallDisImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
+                                    <img id="acsSmallDisImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="acsSmallObjectSecondaryImageCont" class="acsSmallImageCont">
+                            <div id="acsSmallObjectSecondaryImageBGWrapper" class="acsSmallImageBGWrapper">
+                                <div id="acsSmallObjectSecondaryImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
+                                    <img id="acsSmallObjectSecondaryImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="acsBigObjectImageCont" class="acsSmallImageCont disabled">
+                            <div id="acsBigObjectImageBGWrapper" class="acsSmallImageBGWrapper">
+                                <div id="acsBigObjectImageWrapper" class="acsSmallImageWrapper fullcircle thinborder">
+                                    <img id="acsBigObjectImg" class="acsSmallImg circleMask" src="images/containment-classes/safe-icon.svg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="generateBtn" id="convertToPngBtn" onclick="convertHtmlToPng()">Download Image</button><label>as PNG [WIP]</label><br>
+            <button class="generateBtn" id="convertToWikiSyntaxBtn" onclick="generateWikiSyntax()">Generate</button><label>as Wiki Syntax</label>
+            <div class="codeBlock">
+                <p id="outputSyntaxText">^ Generate above</p><br>
+                <button class="codeBlockCopy" onclick="copyText('outputSyntaxText')">Copy</button>
+            </div>
+        </div>
+        
+    </div>
+</body>

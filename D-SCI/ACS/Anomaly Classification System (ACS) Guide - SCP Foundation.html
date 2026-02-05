@@ -1,0 +1,817 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Anomaly Classification System (ACS) Guide - SCP Foundation</title>
+
+
+
+    <script type="text/javascript" async=""
+        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/dc.js.téléchargement"></script>
+    <script type="text/javascript"
+        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/init.combined.js.téléchargement"></script>
+    <script type="text/javascript">
+        var URL_HOST = 'www.wikidot.com';
+        var URL_DOMAIN = 'wikidot.com';
+        var USE_SSL = true;
+        var URL_STATIC = 'https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc';
+
+        var WIKIREQUEST = {};
+        WIKIREQUEST.info = {};
+
+        WIKIREQUEST.info.domain = "scp-wiki.wikidot.com";
+        WIKIREQUEST.info.siteId = 66711;
+        WIKIREQUEST.info.siteUnixName = "scp-wiki";
+        WIKIREQUEST.info.categoryId = 366566;
+        WIKIREQUEST.info.themeId = 1;
+        WIKIREQUEST.info.requestPageName = "anomaly-classification-system-guide";
+        OZONE.request.timestamp = 1769079762;
+        OZONE.request.date = new Date();
+        WIKIREQUEST.info.lang = 'en';
+        WIKIREQUEST.info.pageUnixName = "anomaly-classification-system-guide";
+        WIKIREQUEST.info.pageId = 858387228;
+        WIKIREQUEST.info.lang = "en";
+        OZONE.lang = "en";
+        var isUAMobile = !!/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    </script>
+
+
+
+
+
+    <script type="text/javascript">
+
+        require.config({
+            baseUrl: URL_STATIC + '/common--javascript',
+            paths: {
+                'jquery.ui': 'jquery-ui.min',
+                'jquery.form': 'jquery.form'
+            }
+        });
+
+    </script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="The SCP Foundation&#39;s &#39;top-secret&#39; archives, declassified for your enjoyment.">
+    <meta name="og:image" content="https://scp-wiki.wdfiles.com/local--files/main/logo_white.png">
+    <meta name="twitter:site" content="@scpwiki">
+    <meta name="twitter:image:alt" content="Seal of the SCP Foundation">
+    <meta name="og:site_name" content="The SCP Foundation">
+    <meta name="twitter:card" content="summary">
+    <meta name="theme-color" content="#882244">
+    <meta name="og:type" content="article">
+    <meta name="og:locale" content="en_US">
+    <meta name="og:locale:alternate" content="en_GB">
+
+
+
+
+
+    <meta http-equiv="content-language" content="en">
+    <script type="text/javascript"
+        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/WIKIDOT.combined.js.téléchargement"></script>
+
+
+    <style type="text/css" id="internal-style">
+        /* modules */
+        @import url(https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--modules/css/pagerate/PageRateWidgetModule.css);
+
+
+
+
+        /* theme */
+        @import url(https://d3g0gp89917ko0.cloudfront.net/v--7690939296dc/common--theme/base/css/style.css);
+        @import url(https://cdn.scpwiki.com/theme/en/sigma/css/sigma.min.css);
+    </style>
+
+
+
+
+    <link rel="shortcut icon" href="https://scp-wiki.wikidot.com/local--favicon/favicon.gif">
+    <link rel="icon" type="image/gif" href="https://scp-wiki.wikidot.com/local--favicon/favicon.gif">
+
+    <link rel="apple-touch-icon" href="https://scp-wiki.wikidot.com/local--iosicon/iosicon_57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://scp-wiki.wikidot.com/local--iosicon/iosicon_72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://scp-wiki.wikidot.com/local--iosicon/iosicon.png">
+
+
+    <link rel="alternate" type="application/wiki" title="Edit this page"
+        href="javascript:WIKIDOT.page.listeners.editClick()">
+
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-18234656-1']);
+        _gaq.push(['_setDomainName', 'none']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_trackPageview']);
+
+        _gaq.push(['old._setAccount', 'UA-68540-5']);
+        _gaq.push(['old._setDomainName', 'none']);
+        _gaq.push(['old._setAllowLinker', true]);
+        _gaq.push(['old._trackPageview']);
+
+    </script>
+
+    <script type="text/javascript">
+        window.google_analytics_uacct = 'UA-18234656-1';
+        window.google_analytics_domain_name = 'none';
+    </script>
+
+    <link rel="manifest" href="https://scp-wiki.wikidot.com/onesignal/manifest.json">
+    <script src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/OneSignalSDK.js.téléchargement"
+        acync=""></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: null,
+            });
+        });
+    </script>
+
+    <style>
+        iframe.scpnet-interwiki-frame {
+            height: 0;
+        }
+    </style>
+    <style>
+        @import url("https://cdn.scpwiki.com/theme/en/black-highlighter/css/min/normalize.min.css");
+        @import url("https://cdn.scpwiki.com/theme/en/black-highlighter/css/min/black-highlighter.min.css");
+
+        a[rel="license"]::after {
+            content: ".";
+        }
+    </style>
+    <style>
+        @import url("https://scp-wiki.wdfiles.com/local--code/component%3Atoggle-sidebar-bhl/1")
+    </style>
+    <style>
+        @import url("https://scp-wiki.wdfiles.com/local--code/component%3Acentered-header-bhl/1")
+    </style>
+    <style>
+/* =========================
+   BASE
+========================= */
+body#html-body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #0e0e11;
+    color: #eaeaf0;
+}
+
+#container-wrap-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+#container {
+    max-width: 1200px;
+    background: #16161c;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.7);
+}
+
+/* =========================
+   HEADER
+========================= */
+#header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#header h1 span {
+    font-size: 42px;
+    letter-spacing: 3px;
+    color: #ffffff;
+}
+
+#header h2 span {
+    color: #8b8b99;
+    letter-spacing: 5px;
+    font-size: 14px;
+}
+
+#page-title {
+    margin-top: 15px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #5fd7ff;
+}
+
+/* =========================
+   TITRES
+========================= */
+h1, h2, h3 {
+    margin: 30px 0 15px;
+    padding-left: 15px;
+    border-left: 5px solid #5fd7ff;
+}
+
+h1 { font-size: 30px; color: #ffffff; }
+h2 { font-size: 24px; color: #5fd7ff; }
+h3 { font-size: 18px; color: #f0f0f0; }
+
+/* =========================
+   STEP
+========================= */
+.step_container {
+    margin-bottom: 50px;
+}
+
+/* =========================
+   CLASS TABLE (CARDS)
+========================= */
+.class-table-box {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #2c2c38;
+    background: #1e1e26;
+}
+
+.class-name {
+    padding: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.class-description {
+    padding: 16px;
+    background: #242430;
+}
+
+/* =========================
+   COULEURS PAR CLASSE
+========================= */
+.color-one   { background: #2ecc71; color: #0b2b18; }
+.color-two   { background: #f1c40f; color: #3a2f00; }
+.color-three { background: #e67e22; color: #3a1e00; }
+.color-four  { background: #e74c3c; color: #2b0a07; }
+.color-five  { background: #8e44ad; color: #f0e6ff; }
+
+.color-black { background: #000; color: #fff; }
+.color-gray  { background: #7f8c8d; color: #fff; }
+.color-white { background: #ecf0f1; color: #111; }
+
+.cosmic {
+    background: linear-gradient(135deg, #6a00ff, #ff00cc);
+    color: #fff;
+}
+
+/* =========================
+   ICONS
+========================= */
+.icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.icon_container {
+    background: #1e1e26;
+    padding: 15px;
+    border-radius: 14px;
+    border: 1px solid #2f2f3d;
+    transition: 0.25s;
+}
+
+.icon_container:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+.icon_image {
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.icon_image img {
+    width: 64px;
+}
+
+.icon_name {
+    margin-top: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* =========================
+   BLOCKQUOTE
+========================= */
+blockquote {
+    background: #1e1e26;
+    border-left: 5px solid #5fd7ff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    color: #cfd3ff;
+}
+
+/* =========================
+   LIENS
+========================= */
+a {
+    color: #5fd7ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 800px) {
+    .class-table-box {
+        grid-template-columns: 1fr;
+    }
+}
+
+    </style>
+    <script
+        data-cfasync="false">window.nitroAds = window.nitroAds || { createAd: function () { return new Promise(e => { window.nitroAds.queue.push(["createAd", arguments, e]) }) }, addUserToken: function () { window.nitroAds.queue.push(["addUserToken", arguments]) }, queue: [] };</script>
+    <script data-cfasync="false" async=""
+        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/ads-143.js.téléchargement"></script>
+    <script type="text/javascript"
+        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/ListPagesModule.js.téléchargement"></script>
+    <script type="text/javascript"
+        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/PageRateWidgetModule.js.téléchargement"></script>
+
+
+<body id="html-body">
+    <div id="skrollr-body">
+        <a name="page-top"></a>
+
+        <div id="container-wrap-wrap">
+            <div id="container-wrap">
+                <div id="container">
+                    <div id="header">
+                        <h1><a href="#"><span>SCP Foundation</span></a></h1>
+
+                        <h2><span>Secure, Contain, Protect</span></h2>
+
+                            <div id="page-title">
+                                Anomaly Classification System (ACS) Guide
+                            </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="step_container">
+                                        <h3 id="toc13"><span><a
+                                                    href="#">The classifications that ACS uses are as follows:</a><a
+                                                    name="classifications-summary"></a></span></h3>
+                                        <div class="class-table-box">
+                                            <div class="class-name color-black">Clearance Level</div>
+                                            <div class="class-description">This is an adaptation of the already existing Clearance Levels. A number of modifications that will be described below.Clearance Levels refers to the level of an employee that isgiven permission to read the information contained within the document.</div>
+                                            <div class="class-name color-black">Containment Class</div>
+                                            <div class="class-description">
+                                                <p>This is the same as the classic "Object Class." <strong>It is renamed in order to more clearly convey what the classification refers to: Containment.</strong> This is the "Contain" part of "Secure, Contain, Protect."</p>
+                                            </div>
+                                            <div class="class-name color-black">Disruption Class</div>
+                                            <div class="class-description">
+                                                <p>This is one of the new classes invented for this Classification System. <strong>Disruption Class refers to an anomaly's ability to isturb the status quo and/or break the veil.</strong> This is the "Secure" part of "Secure, Contain, Protect."</p>
+                                                <p>When considering the Disruption Class of an object, ask yourself these questions:</p>
+                                                <ol>
+                                                    <li>How swiftly will the influence of the anomaly spread?</li>
+                                                    <li>How far will it spread if left unchecked?</li>
+                                                    <li>How easily can The Foundation neutralize its effects?</li>
+                                                </ol>
+                                            </div>
+                                            <div class="class-name color-black">Risk Class</div>
+                                            <div class="class-description">
+                                                <p>This is one of the new classes invented for this Classification
+                                                    System. <strong>Risk Class refers to the severity of an anomaly's
+                                                        effects on an individual person and how easily one can recover
+                                                        from it.</strong> This is the "Protect" part of "Secure,
+                                                    Contain, Protect."</p>
+                                                <p>When considering the Risk Class of an object, ask yourself these
+                                                    questions:</p>
+                                                <ol>
+                                                    <li>How easily can individuals recover, if at all?</li>
+                                                    <li>How severe are the effects?</li>
+                                                    <li>At what proximity do these effects start being noticed?</li>
+                                                </ol>
+                                            </div>
+                                            <div class="class-name color-black">Secondary Class</div>
+                                            <div class="class-description">
+                                                <p>This is an <strong>optional</strong> new class used, but not
+                                                    invented, for this classification system. The Secondary Class can
+                                                    also be known as the "Esoteric Class."</p>
+                                                <p>It uses the already known Esoteric Classes, <a
+                                                        href="#">which
+                                                        you can find a list of here.</a></p>
+                                                <p>It is standard for the Containment Class to be set to "Esoteric" when
+                                                    utilizing a Secondary Class, but this is not required.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h1 id="toc14"><span><a
+                                                href="#">Detailed
+                                                Descriptions</a><a name="detailed"></a></span></h1>
+                                    <div class="step_container">
+                                        <h2 id="toc15"><span><a
+                                                    href="#">Clearance
+                                                    Level</a><a name="clearance-lvl"></a></span></h2>
+                                        <blockquote>
+                                            <p>Clearance Levels are the primary section of this Classification System
+                                                that depends largely on the headcanon of the author and the reader. The
+                                                descriptions below refer to a specific way that The Foundation is run
+                                                and that may not be inline with your view of The Foundation, and that's
+                                                okay! Just use these as a general guideline and adapt as you see fit.
+                                            </p>
+                                        </blockquote>
+                                        <div class="class-table-box">
+                                            <div class="class-name color-one">Level 1: Unrestricted (UR)</div>
+                                            <div class="class-description">This document is available to all Foundation
+                                                employees. If someone gets a regular paycheck from The Foundation, they
+                                                can see this document.</div>
+                                            <div class="class-name color-two">Level 2: Restricted (RS)</div>
+                                            <div class="class-description">
+                                                <p>This document is available to the majority of employees upon request.
+                                                    If the employee has a subordinate, then they are already granted
+                                                    Level 2 access. If an employee does not have any subordinates, then
+                                                    they must request access to the document from their supervisor.</p>
+                                            </div>
+                                            <div class="class-name color-three">Level 3: Confidential (CF)</div>
+                                            <div class="class-description">
+                                                <p>This document is available to the minority of employees. The primary
+                                                    administrative staff of a Site will have Level 3 access. If an
+                                                    employee has a subordinate but does not have Level 3 access, they
+                                                    must request access to the document from their site administrative
+                                                    staff. If an employee does not have a subordinate, they must request
+                                                    access from their supervisor who will then request access from the
+                                                    site administrative staff.</p>
+                                            </div>
+                                            <div class="class-name color-four">Level 4: Secret (SC)</div>
+                                            <div class="class-description">
+                                                <p>This document is ONLY available to site and Foundation administrative
+                                                    staff. Access to employees without Level 4 access will, generally,
+                                                    be declined and only approved for very specific purposes.</p>
+                                            </div>
+                                            <div class="class-name color-five">Level 5: Top Secret (TS)</div>
+                                            <div class="class-description">
+                                                <p>This document is ONLY available to the highest Foundation
+                                                    Administrative Staff, such as the Ethics Committee or the O5
+                                                    Council. Anyone without Level 5 access will always be denied.</p>
+                                            </div>
+                                            <div class="class-name cosmic">Level 6: Cosmic Top Secret (CTS)<sup
+                                                    class="footnoteref"><a id="footnoteref-1" href="javascript:;"
+                                                        class="footnoteref"
+                                                        onclick="WIKIDOT.page.utils.scrollToReference(&#39;footnote-1&#39;)">1</a></sup>
+                                            </div>
+                                            <div class="class-description">
+                                                <p>This document is ONLY available to a member of the O5 Council. All
+                                                    access to this document is granted solely at the discretion of an O5
+                                                    Council member.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="step_container">
+                                        <h2 id="toc16"><span><a
+                                                    href="#">Containment
+                                                    Class</a><a name="containment-class"></a></span></h2>
+                                        <h3 id="toc17"><span>Containment Class Options</span></h3>
+                                        <div class="icons">
+                                            <div class="icon_container">
+                                                <div class="icon_image color-one"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/safe-icon.svg"
+                                                        alt="safe-icon.svg" class="image"></div>
+                                                <div class="icon_name">safe</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-three"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/euclid-icon(1).svg"
+                                                        alt="euclid-icon.svg" class="image"></div>
+                                                <div class="icon_name">euclid</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-five"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/keter-icon.svg"
+                                                        alt="keter-icon.svg" class="image"></div>
+                                                <div class="icon_name">keter</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-gray"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/neutralized-icon.svg"
+                                                        alt="neutralized-icon.svg" class="image"></div>
+                                                <div class="icon_name">neutralized</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-black"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/pending-icon.svg"
+                                                        alt="pending-icon.svg" class="image"></div>
+                                                <div class="icon_name">pending</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/explained-icon.svg"
+                                                        alt="explained-icon.svg" class="image"></div>
+                                                <div class="icon_name">explained</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/esoteric-icon.svg"
+                                                        alt="esoteric-icon.svg" class="image"></div>
+                                                <div class="icon_name">esoteric</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="step_container">
+                                        <h2 id="toc18"><span><a
+                                                    href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#secondary-class">Secondary
+                                                    Class</a><a name="secondary-class"></a></span></h2>
+                                        <blockquote>
+                                            <p>Refer to the <a
+                                                    href="https://scp-wiki.wikidot.com/esoteric-classes-complete-list">Esoteric
+                                                    Class page here.</a></p>
+                                        </blockquote>
+                                        <p><strong>NOTE:</strong> Under ACS, Thaumiel is considered a <strong>secondary
+                                                class</strong> not a Containment Class.</p>
+                                        <h3 id="toc19"><span>Secondary Class Options</span></h3>
+                                        <blockquote>
+                                            <p>Not all Secondary Class options are listed here, these are only the
+                                                options of which Icons have been created. Please refer to the <a
+                                                    href="https://scp-wiki.wikidot.com/esoteric-classes-complete-list">Esoteric
+                                                    Class page.</a> to see all Secondary Class options.</p>
+                                        </blockquote>
+                                        <div class="icons">
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/apollyon-icon.svg"
+                                                        alt="apollyon-icon.svg" class="image"></div>
+                                                <div class="icon_name">apollyon</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/archon-icon.svg"
+                                                        alt="archon-icon.svg" class="image"></div>
+                                                <div class="icon_name">archon</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/cernunnos-icon.svg"
+                                                        alt="cernunnos-icon.svg" class="image"></div>
+                                                <div class="icon_name">cernunnos</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/decommissioned-icon.svg"
+                                                        alt="decommissioned-icon.svg" class="image"></div>
+                                                <div class="icon_name">decommissioned</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/hiemal-icon.svg"
+                                                        alt="hiemal-icon.svg" class="image"></div>
+                                                <div class="icon_name">hiemal</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/tiamat-icon.svg"
+                                                        alt="tiamat-icon.svg" class="image"></div>
+                                                <div class="icon_name">tiamat</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/ticonderoga-icon.svg"
+                                                        alt="ticonderoga-icon.svg" class="image"></div>
+                                                <div class="icon_name">ticonderoga</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/thaumiel-icon.svg"
+                                                        alt="thaumiel-icon.svg" class="image"></div>
+                                                <div class="icon_name">thaumiel</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-white"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/uncontained-icon.svg"
+                                                        alt="uncontained-icon.svg" class="image"></div>
+                                                <div class="icon_name">uncontained</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="step_container">
+                                        <h1 id="toc20"><span><a
+                                                    href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#disruption-class">Disruption
+                                                    Class Options</a><a name="disruption-class"></a><sup
+                                                    class="footnoteref"><a id="footnoteref-2" href="javascript:;"
+                                                        class="footnoteref"
+                                                        onclick="WIKIDOT.page.utils.scrollToReference(&#39;footnote-2&#39;)">2</a></sup></span>
+                                        </h1>
+                                        <div class="icons">
+                                            <div class="icon_container">
+                                                <div class="icon_image color-one"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/dark-icon.svg"
+                                                        alt="dark-icon.svg" class="image"></div>
+                                                <div class="icon_name">dark</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-two"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/vlam-icon(1).svg"
+                                                        alt="vlam-icon.svg" class="image"></div>
+                                                <div class="icon_name">vlam</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-three"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/keneq-icon.svg"
+                                                        alt="keneq-icon.svg" class="image"></div>
+                                                <div class="icon_name">keneq</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-four"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/ekhi-icon.svg"
+                                                        alt="ekhi-icon.svg" class="image"></div>
+                                                <div class="icon_name">ekhi</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-five"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/amida-icon.svg"
+                                                        alt="amida-icon.svg" class="image"></div>
+                                                <div class="icon_name">amida</div>
+                                            </div>
+                                        </div>
+                                        <div class="class-table-box">
+                                            <div class="class-name color-one">Dark<sup class="footnoteref"><a
+                                                        id="footnoteref-3" href="javascript:;" class="footnoteref"
+                                                        onclick="WIKIDOT.page.utils.scrollToReference(&#39;footnote-3&#39;)">3</a></sup>
+                                            </div>
+                                            <div class="class-description">The known or potential disruption is
+                                                <strong>so low as to not be a concern</strong>.
+                                                <p>The object is essentially inert when not interacted with and may
+                                                    <strong>potentially only affect a single individual</strong>.</p>
+                                                The Foundation would find it <strong>trivial to clean up after
+                                                    it.</strong>
+                                            </div>
+                                            <div class="class-name color-two">Vlam<sup class="footnoteref"><a
+                                                        id="footnoteref-4" href="javascript:;" class="footnoteref"
+                                                        onclick="WIKIDOT.page.utils.scrollToReference(&#39;footnote-4&#39;)">4</a></sup>
+                                            </div>
+                                            <div class="class-description">
+                                                <p>The known or potential disruption would be <strong>localized to a
+                                                        small handful of people.</strong></p>
+                                                <p>The anomalous effects certainly do <strong>affect multiple people,
+                                                        but it would not extend very far.</strong></p>
+                                                <p>The Foundation would find it <strong>relatively simple to neutralize
+                                                        its effects.</strong></p>
+                                            </div>
+                                            <div class="class-name color-three">Keneq<sup class="footnoteref"><a
+                                                        id="footnoteref-5" href="javascript:;" class="footnoteref"
+                                                        onclick="WIKIDOT.page.utils.scrollToReference(&#39;footnote-5&#39;)">5</a></sup>
+                                            </div>
+                                            <div class="class-description">
+                                                <p>The known or potential disruption would be extended to a number of
+                                                    people <strong>roughly defined as a city.</strong></p>
+                                                <p>The anomalous effects could spread with <strong>fairly significant
+                                                        speed, fast enough as to cause concern.</strong></p>
+                                                <p>The Foundation would find it <strong>moderately difficult to
+                                                        neutralize its effects.</strong></p>
+                                            </div>
+                                            <div class="class-name color-four">Ekhi<sup class="footnoteref"><a
+                                                        id="footnoteref-6" href="javascript:;" class="footnoteref"
+                                                        onclick="WIKIDOT.page.utils.scrollToReference(&#39;footnote-6&#39;)">6</a></sup>
+                                            </div>
+                                            <div class="class-description">
+                                                <p>The <strong>known disruption</strong> would extend to <strong>roughly
+                                                        the size of a large metropolitan area to an entire
+                                                        country.</strong> The <strong>potential disruption</strong>
+                                                    could extend to <strong>the entire known world.</strong></p>
+                                                <p>The spread would be <strong>swift and difficult to manage.</strong>
+                                                </p>
+                                                <p>The Foundation would find it <strong>quite difficult to neutralize
+                                                        its effects.</strong></p>
+                                            </div>
+                                            <div class="class-name color-five">Amida<sup class="footnoteref"><a
+                                                        id="footnoteref-7" href="javascript:;" class="footnoteref"
+                                                        onclick="WIKIDOT.page.utils.scrollToReference(&#39;footnote-7&#39;)">7</a></sup>
+                                            </div>
+                                            <div class="class-description">
+                                                <p><strong>This Disruption Class should be reserved for special
+                                                        circumstances when The Foundation is essentially "declaring war"
+                                                        on an anomaly.</strong> When an anomaly poses such a dire threat
+                                                    to the status quo and The Foundation's veil that there is no other
+                                                    option than to use all possible options in order to Neutralize it.
+                                                </p>
+                                                <p><strong>The effects of an Amida anomaly would extend to the entire
+                                                        known world and possibly the entire universe.</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="step_container">
+                                        <h1 id="toc21"><span><a
+                                                    href="https://scp-wiki.wikidot.com/anomaly-classification-system-guide#risk-class">Risk
+                                                    Class Options</a><a name="risk-class"></a></span></h1>
+                                        <div class="icons">
+                                            <div class="icon_container">
+                                                <div class="icon_image color-one"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/notice-icon(1).svg"
+                                                        alt="notice-icon.svg" class="image"></div>
+                                                <div class="icon_name">notice</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-two"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/caution-icon.svg"
+                                                        alt="caution-icon.svg" class="image"></div>
+                                                <div class="icon_name">caution</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-three"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/warning-icon.svg"
+                                                        alt="warning-icon.svg" class="image"></div>
+                                                <div class="icon_name">warning</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-four"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/danger-icon.svg"
+                                                        alt="danger-icon.svg" class="image"></div>
+                                                <div class="icon_name">danger</div>
+                                            </div>
+                                            <div class="icon_container">
+                                                <div class="icon_image color-five"><img
+                                                        src="./Anomaly Classification System (ACS) Guide - SCP Foundation_files/critical-icon.svg"
+                                                        alt="critical-icon.svg" class="image"></div>
+                                                <div class="icon_name">critical</div>
+                                            </div>
+                                        </div>
+                                        <div class="class-table-box">
+                                            <div class="class-name color-one">Notice</div>
+                                            <div class="class-description">The anomalous effects of the object are
+                                                <strong>nearly non-existent to mild.</strong>
+                                                <p>An individual within close proximity of the object would <strong>not
+                                                        feel anything</strong> as a result of the object.</p>
+                                                It poses <strong>no danger</strong> to any individual nearby.
+                                            </div>
+                                            <div class="class-name color-two">Caution</div>
+                                            <div class="class-description">
+                                                <p>The anomalous effects of the object are <strong>mild to
+                                                        moderate.</strong></p>
+                                                <p>An individual within close proximity of the object <strong>may feel
+                                                        mild effects</strong> from the anomalous object.</p>
+                                                <p>It poses <strong>mild danger</strong> to any individual nearby.</p>
+                                            </div>
+                                            <div class="class-name color-three">Warning</div>
+                                            <div class="class-description">
+                                                <p>The anomalous effect of the object are <strong>moderate to
+                                                        significant.</strong></p>
+                                                <p>An individual within close proximity of the object <strong>will feel
+                                                        mild effects or may feel major effects</strong> from the
+                                                    anomalous object.</p>
+                                                <p>It poses <strong>moderate danger</strong> to any individual nearby.
+                                                </p>
+                                            </div>
+                                            <div class="class-name color-four">Danger</div>
+                                            <div class="class-description">
+                                                <p>The anomalous effect of the object are <strong>significant to
+                                                        extreme.</strong></p>
+                                                <p>An individual within close proximity of the object <strong>will feel
+                                                        major effects</strong> or <strong>may feel extreme
+                                                        effects</strong> from the anomalous object.</p>
+                                                <p>It poses <strong>significant danger</strong> to any individual
+                                                    nearby.</p>
+                                            </div>
+                                            <div class="class-name color-five">Critical</div>
+                                            <div class="class-description">
+                                                <p>This Risk Class should only be chosen when the object's effects
+                                                    <strong>will be near instant and/or extremely severe.</strong></p>
+                                                <p>It does not, necessarily, need to cause actual death, but death is
+                                                    incredibly likely and expected. Any individual nearby will
+                                                    <strong>feel the effects near instantly and the possibility of
+                                                        recovery is impossible.</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+  
+
+
+                            <script>
+                                window['nitroAds'].createAd('wad-scp-wiki-below-content-anchor', {
+                                    "refreshTime": 30,
+                                    "format": "anchor-v2",
+                                    "anchor": "bottom",
+                                    "anchorPersistClose": false,
+                                    "mediaQuery": "(min-width: 0px)",
+                                    "report": {
+                                        "enabled": true,
+                                        "icon": true,
+                                        "wording": "Report Ad",
+                                        "position": "bottom-right"
+                                    }
+                                });
+                            </script>

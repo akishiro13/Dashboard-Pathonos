@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Département Scientifique - Site-80</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+body {
+  background:#050505;
+  color:#d1d1d1;
+  font-family:'Share Tech Mono', monospace;
+  margin:0;
+}
+button {
+  background:#0f172a;
+  color:#38bdf8;
+  border:2px solid #0284c7;
+  padding:20px 40px;
+  font-weight:bold;
+  text-transform:uppercase;
+}
+button:hover {
+  background:#38bdf8;
+  color:#020617;
+}
+</style>
+</head>
+
+<body>
+
+<header class="p-5 border-b-4 border-cyan-600 text-center">
+  <h1 class="text-2xl uppercase font-black text-cyan-400">
+    Département Scientifique
+  </h1>
+  <p class="text-xs text-cyan-300 uppercase">
+    Terminal Officiel — Site-80
+  </p>
+</header>
+
+<div class="flex flex-col items-center justify-center gap-8 min-h-[calc(100vh-120px)]">
+
+  <h2 class="text-3xl uppercase font-black text-cyan-500">
+    Terminal Scientifique
+  </h2>
+
+  <p class="max-w-xl text-center text-sm text-gray-400">
+    Accès sécurisé aux archives SCP, protocoles de recherche
+    et générateurs de rapports scientifiques.
+  </p>
+
+  <div class="flex flex-col gap-5">
+    <button onclick="location.href='wiki/archives.html'">Archives SCP</button>
+    <button onclick="location.href='protocole/protocoles.html'">Protocoles de Recherche</button>
+    <button onclick="location.href='rapports/rapports.html'">Rapports Scientifiques</button>
+    <button onclick="location.href='ACS/index.html'">générateur de carte ACS</button>
+    <button onclick="location.href='ACS/Anomaly Classification System (ACS) Guide - SCP Foundation.html'">ACS Guide</button>
+
+  </div>
+
+</div>
+
+</body>
+</html>

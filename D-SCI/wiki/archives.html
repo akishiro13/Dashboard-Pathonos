@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SCP FOUNDATION - INTERNAL DATABASE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --scp-red: #991b1b;
+            --scp-glow: rgba(20, 184, 166, 0.5);
+        }
+        body {
+            background-color: #050505;
+            color: #14b8a6; /* Couleur ambre/cyan rétro */
+            font-family: 'Courier Prime', monospace;
+            overflow-x: hidden;
+        }
+
+        /* Effet de scanline et flickering */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 100;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .crt-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 60%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 101;
+        }
+
+        .scp-card {
+            border: 2px solid #134e4a;
+            background: rgba(0, 20, 20, 0.8);
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .scp-card:hover {
+            border-color: #2dd4bf;
+            box-shadow: 0 0 15px var(--scp-glow);
+            transform: translateY(-2px);
+        }
+
+        .header-glitch {
+            text-shadow: 2px 0 #991b1b, -2px 0 #0ea5e9;
+        }
+
+        .btn-access {
+            background: #134e4a;
+            color: white;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        /* Masque pour le texte [REDACTED] */
+        .redacted {
+            background: #14b8a6;
+            color: #14b8a6;
+            padding: 0 4px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+    <div class="crt-overlay"></div>
+
+    <header class="max-w-6xl mx-auto mb-10 border-4 border-double border-teal-900 p-6 relative bg-black/50">
+        <div class="absolute -top-4 left-6 bg-black px-4 text-red-600 font-bold tracking-[0.3em]">
+            TOP SECRET / EYES ONLY
+        </div>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-black uppercase header-glitch">Foundation Database</h1>
+                <p class="text-sm opacity-70 mt-2">SÉCURISER. CONTENIR. PROTÉGER. | Terminal v4.0.2</p>
+            </div>
+            <div class="text-right border-l-2 border-teal-900 pl-4 hidden md:block">
+                <p class="text-[10px]">USER: Scientifique</p>
+                <p class="text-[10px]">LOCATION: SITE-80</p>
+                <p class="text-[10px]" id="current-date"></p>
+            </div>
+        </div>
+    </header>
+
+    <main id="scp-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        </main>
+
+    <div id="file-overlay" class="fixed inset-0 bg-black/fb z-[200] hidden overflow-y-auto p-4 md:p-20">
+        <div class="max-w-4xl mx-auto bg-[#0a0a0a] border-2 border-red-900 p-8 shadow-[0_0_50px_rgba(153,27,27,0.3)]">
+            <div class="flex justify-between items-start border-b border-red-900 pb-4 mb-6">
+                <h2 id="file-id" class="text-4xl font-bold text-red-600 tracking-tighter"></h2>
+                <button onclick="closeFile()" class="text-red-900 hover:text-red-500 font-bold">[ FERMER_ACCÈS ]</button>
+            </div>
+            <div id="file-content" class="space-y-6 text-sm md:text-base leading-relaxed">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        // Date en temps réel
+        document.getElementById('current-date').innerText = `DATE: ${new Date().toISOString().slice(0,10)} ${new Date().toLocaleTimeString()}`;
+
+        async function loadFiles() {
+            try {
+                const res = await fetch('scp.json');
+                const data = await res.json();
+                const container = document.getElementById('scp-container');
+                container.innerHTML = '';
+
+                data.forEach(scp => {
+                    const card = document.createElement('div');
+                    card.className = "scp-card p-6 flex flex-col";
+                    
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center mb-4 opacity-50 text-[10px] font-bold">
+                            <span>DOSSIER_NUM: ${scp.id.split('-')[0]}</span>
+                            <span>LVL_${scp.clearance_level}</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-1 tracking-tighter">${scp.item_number}</h2>
+                        <h3 class="text-teal-500 text-xs font-bold uppercase mb-4 tracking-widest border-b border-teal-900 pb-2">${scp.title}</h3>
+                        
+                        <div class="relative w-full h-48 bg-black mb-4 overflow-hidden border border-teal-900 group">
+                            <img src="${scp.image_url || 'https://via.placeholder.com/400x300?text=NO_PHOTO'}" 
+                                 class="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition duration-700">
+                            <div class="absolute inset-0 pointer-events-none border-2 border-inset border-black/50"></div>
+                        </div>
+
+                        <div class="space-y-2 mb-6">
+                            <p class="text-[10px]"><span class="text-red-800">CLASSE:</span> ${scp.object_class.toUpperCase()}</p>
+                            <p class="text-xs text-teal-200/70 italic line-clamp-3 leading-relaxed">
+                                "${scp.description.substring(0, 150)}..."
+                            </p>
+                        </div>
+
+                        <button onclick='openFile(${JSON.stringify(scp).replace(/'/g, "&apos;")})' 
+                                class="mt-auto py-2 btn-access font-bold text-xs tracking-tighter hover:bg-teal-700 transition">
+                            LIRE LE RAPPORT COMPLET
+                        </button>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function openFile(scp) {
+            const overlay = document.getElementById('file-overlay');
+            const content = document.getElementById('file-content');
+            document.getElementById('file-id').innerText = scp.item_number;
+
+            content.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-red-900/30 pb-6">
+                    <div>
+                        <p class="text-red-700 font-bold uppercase text-xs mb-1">Titre de l'Objet:</p>
+                        <p class="text-xl mb-4 text-white">${scp.title}</p>
+                        <p class="text-red-700 font-bold uppercase text-xs mb-1">Classe de l'Objet:</p>
+                        <p class="text-xl mb-4 text-white font-black tracking-widest">${scp.object_class}</p>
+                    </div>
+                    <img src="${scp.image_url || ''}" class="w-full border-2 border-red-900 grayscale contrast-125">
+                </div>
+                <div>
+                    <h4 class="text-red-700 font-bold uppercase text-xs mb-2 underline">Procédures de Confinement Spéciales:</h4>
+                    <p class="text-gray-300 bg-red-950/10 p-4 border-l-2 border-red-700">${scp.containment_procedures}</p>
+                </div>
+                <div>
+                    <h4 class="text-red-700 font-bold uppercase text-xs mb-2 underline">Description:</h4>
+                    <p class="text-gray-300 leading-relaxed">${scp.description}</p>
+                </div>
+                <div class="pt-10 opacity-20 text-[10px]">
+                    SIGNATURE: <span class="redacted">O5-COUNCIL-REDACTED</span><br>
+                    ID_SESSION: ${Math.random().toString(36).substring(2, 15)}
+                </div>
+            `;
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFile() {
+            document.getElementById('file-overlay').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onload = loadFiles;
+    </script>
+</body>
+</html>
